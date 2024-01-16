@@ -1,10 +1,11 @@
 package Question;
 
 import java.io.Serializable;
+import java.util.List;
 
-public class Question<T> implements Serializable {
+public class Question implements Serializable {
     protected String question;
-    private T answer;
+    private List<String> answer;
 
     public Question(String question) {
         this.question = question;
@@ -14,11 +15,11 @@ public class Question<T> implements Serializable {
         return this.question;
     }
 
-    public void setAnswer(T answer) {
-        this.answer = answer;
+    public void setAnswer(String answer) {
+        this.answer.add(answer);
     }
 
-    public T getAnswer() {
+    public List<String> getAnswer() {
         return this.answer;
     }
 

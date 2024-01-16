@@ -5,7 +5,7 @@ enum TrueFalseAnswer {
     FALSE
 }
 
-public class TrueFalse extends Question<TrueFalseAnswer> {
+public class TrueFalse extends Question {
     public TrueFalse(String question) {
         super(question);
     }
