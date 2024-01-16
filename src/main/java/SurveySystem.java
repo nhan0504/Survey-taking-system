@@ -1,16 +1,9 @@
 import Menu.Menu;
-import Menu.MenuFactory;
-import Menu.StartMenuFactory;
+import Menu.StartMenu;
 
 public class SurveySystem {
     public static void main(String[] args) {
-//        Survey survey = new Survey();
-//        Question<List<String>> shortAnswer = new ShortAnswer("What is your name");
-//        survey.addQuestion(shortAnswer);
-
-
-        MenuFactory menuFactory = new StartMenuFactory();
-        Menu menu = menuFactory.createMenu();
+        Menu menu = new StartMenu();
 
         while(true) {
             menu.display();

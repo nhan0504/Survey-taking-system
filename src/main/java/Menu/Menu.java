@@ -1,13 +1,11 @@
 package Menu;
 
+import Survey.Survey;
+
 import java.util.*;
 
-public class Menu {
+public abstract class Menu {
     protected List<String> options;
-
-    public Menu(List<String> options) {
-        this.options = options;
-    }
 
     public void display() {
         for (int i = 0; i < options.size(); i++) {
@@ -38,16 +36,7 @@ public class Menu {
         return idx;
     }
 
-    private void execute(int option) {
-        switch (option) {
-            case 0:
-                System.out.println("Run option 0");
-                break;
-            case 1:
-                System.exit(0);
-        }
-
-    }
+    protected abstract void execute(int option);
 
     public void getInputAndExecute() {
         try {
