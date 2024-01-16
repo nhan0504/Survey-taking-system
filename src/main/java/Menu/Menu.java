@@ -2,17 +2,30 @@ package Menu;
 
 import java.util.*;
 
-public abstract class Menu {
-    protected List<Option> options = new ArrayList<>();
+public class Menu {
+    protected List<String> options;
+
+    public Menu(List<String> options) {
+        this.options = options;
+    }
 
     public void display() {
         for (int i = 0; i < options.size(); i++) {
             int index = i + 1;
-            System.out.println(index + ". " + options.get(i).getOption());
+            System.out.println(index + ". " + options.get(i));
         }
     }
 
-    private int validOption(String input) throws Exception {
+    private int getValidInput() throws Exception{
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Choose an option: ");
+        String input = scanner.nextLine();
+
+        return isValid(input);
+
+    }
+
+    private int isValid(String input) throws Exception {
         int idx;
         try {
             idx = Integer.parseInt(input) - 1;
@@ -25,15 +38,23 @@ public abstract class Menu {
         return idx;
     }
 
-    public void getInputAndExecute() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Choose an option: ");
-        String input = scanner.nextLine();
+    private void execute(int option) {
+        switch (option) {
+            case 0:
+                System.out.println("Run option 0");
+                break;
+            case 1:
+                System.exit(0);
+        }
 
+    }
+
+    public void getInputAndExecute() {
         try {
-            int idx = validOption(input);
-            options.get(idx).getAction().run();
-        } catch (Exception e) {
+            int option = getValidInput();
+            execute(option);
+        }
+        catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
