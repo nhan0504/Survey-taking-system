@@ -1,26 +1,20 @@
 package Question;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Question implements Serializable {
     protected String question;
-    private List<String> answer;
+    private List<String> answers;
 
     public Question(String question) {
         this.question = question;
-    }
-
-    protected String getQuestion() {
-        return this.question;
+        this.answers = new ArrayList<>();
     }
 
     public void setAnswer(String answer) {
-        this.answer.add(answer);
-    }
-
-    public List<String> getAnswer() {
-        return this.answer;
+        this.answers.add(answer);
     }
 
     public void display() {

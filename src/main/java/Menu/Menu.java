@@ -16,7 +16,7 @@ public abstract class Menu {
 
     private int getValidInput() throws Exception{
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Choose an option: ");
+        System.out.print("Choose an option: ");
         String input = scanner.nextLine();
 
         return isValid(input);
