@@ -23,16 +23,23 @@ public class Survey implements Serializable {
         Survey survey = new Survey();
         survey.addQuestion(new Question("HIHII ???"));
         survey.addQuestion(new Question("Am I a question?"));
-        saveSurvey(survey);
+
+        boolean isSaved = false;
+        while (!isSaved) {
+            isSaved = saveSurvey(survey);
+        }
     }
 
-    public static void saveSurvey(Survey survey) {
+    public static boolean saveSurvey(Survey survey) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter survey name to save");
         String surveyName = scanner.nextLine();
 
         File directory = new File("surveys\\" + surveyName);
-        directory.mkdir();
+        if (!directory.mkdir()) {
+            System.out.println("Survey already exist");
+            return false;
+        }
 
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("surveys\\" + surveyName + "\\" + surveyName + ".txt"));
@@ -43,6 +50,8 @@ public class Survey implements Serializable {
         } catch (IOException e) {
             System.out.printf(e.getMessage());
         }
+
+        return true;
     }
 
     public static void modifySurvey() {
@@ -65,10 +74,8 @@ public class Survey implements Serializable {
             ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream("surveys\\" + input + "\\" + input + ".txt"));
             survey = (Survey) inputStream.readObject();
             inputStream.close();
-        } catch (IOException e) {
-            System.out.printf(e.getMessage());
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            System.out.println("Cannot find survey");
         }
 
         return survey;
