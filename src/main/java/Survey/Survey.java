@@ -4,6 +4,7 @@ import Executor.CreateSurveyExecutor;
 import Menu.CreateSurveyMenu;
 import Menu.Menu;
 import Question.Question;
+import Question.QuestionFactory;
 
 import java.io.*;
 import java.util.*;
@@ -70,12 +71,7 @@ public class Survey implements Serializable {
     public static void takeSurvey(Survey currentSurvey) {
         for(Question question : currentSurvey.questions) {
             question.display();
-
-            Scanner scanner = new Scanner(System.in);
-            System.out.print("Enter answer: ");
-            String input = scanner.nextLine();
-
-            question.setAnswer(input);
+            question.getAnswer();
         }
         saveSurveyAnswer(currentSurvey);
     }
@@ -85,33 +81,33 @@ public class Survey implements Serializable {
     }
 
     public static void addTF(Survey currentSurvey) {
-        System.out.println("Adding true false question");
-        currentSurvey.addQuestion(new Question("TRUE ???"));
+        Question question = QuestionFactory.createTrueFalse();
+        currentSurvey.questions.add(question);
     }
 
     public static void addMultipleChoice(Survey currentSurvey) {
-        System.out.println("Adding multiple choice question");
-        currentSurvey.addQuestion(new Question("Muti hihi?"));
+        Question question = QuestionFactory.createMultipleChoice();
+        currentSurvey.questions.add(question);
     }
 
     public static void addShortAnswer(Survey currentSurvey) {
-        System.out.println("Adding short answer question");
-        currentSurvey.addQuestion(new Question("Am I a question?"));
+        Question question = QuestionFactory.createShortAnswer();
+        currentSurvey.questions.add(question);
     }
 
     public static void addEssay(Survey currentSurvey) {
-        System.out.println("Adding essay question");
-        currentSurvey.addQuestion(new Question("Is this an essay?"));
+        Question question = QuestionFactory.createEssay();
+        currentSurvey.questions.add(question);
     }
 
     public static void addDate(Survey currentSurvey) {
-        System.out.println("Adding date question");
-        currentSurvey.addQuestion(new Question("What day is it?"));
+        Question question = QuestionFactory.createDate();
+        currentSurvey.questions.add(question);
     }
 
     public static void addMatching(Survey currentSurvey) {
-        System.out.println("Adding matching question");
-        currentSurvey.addQuestion(new Question("Are you a match maker?"));
+        Question question = QuestionFactory.createMatching();
+        currentSurvey.questions.add(question);
     }
 
     private static void saveSurveyAnswer(Survey survey) {
@@ -131,10 +127,6 @@ public class Survey implements Serializable {
                 System.out.println("Name already exists");
             }
         }
-    }
-
-    private void addQuestion(Question question) {
-        this.questions.add(question);
     }
 
     private static void serialize(String path, Survey survey) {
