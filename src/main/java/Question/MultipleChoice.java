@@ -14,7 +14,9 @@ public class MultipleChoice extends Question {
     @Override
     public void display() {
         System.out.println(this.question);
+        char index = 'A';
         for (String option : this.options) {
+            System.out.print(index++ + ") ");
             System.out.println(option);
         }
     }

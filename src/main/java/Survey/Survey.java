@@ -32,9 +32,14 @@ public class Survey implements Serializable {
     }
 
     public static void displaySurvey(Survey currentSurvey) {
+        System.out.println("-~-~-~-~-~-~-~Survey-~-~-~-~-~-~-~");
+        int index = 1;
         for (Question question : currentSurvey.questions) {
+            System.out.print(index++ + ". ");
             question.display();
+            System.out.println();
         }
+        System.out.println("-~-~-~-~-~-~End Survey-~-~-~-~-~-~");
     }
 
     public static Survey loadSurvey() {
@@ -72,6 +77,7 @@ public class Survey implements Serializable {
         for(Question question : currentSurvey.questions) {
             question.display();
             question.getAnswer();
+            System.out.println();
         }
         saveSurveyAnswer(currentSurvey);
     }
