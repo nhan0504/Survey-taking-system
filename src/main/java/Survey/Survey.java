@@ -21,13 +21,10 @@ public class Survey implements Serializable {
         Survey newSurvey = new Survey();
         Menu<Survey> createMenu = new CreateSurveyMenu(new CreateSurveyExecutor(newSurvey));
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("How many question do you want on the survey? ");
-        String input = scanner.nextLine();
-
-        for (int i = 0; i < Integer.parseInt(input); i++) {
+        boolean running = true;
+        while (running) {
             createMenu.display();
-            createMenu.getInputAndExecute();
+            running = createMenu.getInputAndExecute();
         }
 
         return newSurvey;

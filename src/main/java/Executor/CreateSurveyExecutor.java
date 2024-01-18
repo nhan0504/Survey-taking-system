@@ -9,30 +9,28 @@ public class CreateSurveyExecutor implements Executor<Survey> {
         this.currentSurvey = currentSurvey;
     }
     @Override
-    public void execute(int option) {
+    public boolean execute(int option) {
         switch (option) {
             case 0:
                 Survey.addTF(currentSurvey);
-                break;
+                return true;
             case 1:
                 Survey.addMultipleChoice(currentSurvey);
-                break;
+                return true;
             case 2:
                 Survey.addShortAnswer(currentSurvey);
-                break;
+                return true;
             case 3:
                 Survey.addEssay(currentSurvey);
-                break;
+                return true;
             case 4:
                 Survey.addDate(currentSurvey);
-                break;
+                return true;
             case 5:
                 Survey.addMatching(currentSurvey);
-                break;
-            case 6:
-                System.out.println("Supposed to go back");
-                System.exit(0);
+                return true;
         }
+        return false;
     }
 
     @Override

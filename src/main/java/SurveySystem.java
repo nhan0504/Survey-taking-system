@@ -12,9 +12,10 @@ public class SurveySystem {
 
         Menu<Survey> menu = new StartSurveyMenu(new StartSurveyExecutor());
 
-        while(true) {
+        boolean running = true;
+        while(running) {
             menu.display();
-            menu.getInputAndExecute();
+            running = menu.getInputAndExecute();
         }
     }
 }

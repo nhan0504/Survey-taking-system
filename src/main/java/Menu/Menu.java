@@ -37,13 +37,15 @@ public abstract class Menu<T> {
         return idx;
     }
 
-    public void getInputAndExecute() {
+    public boolean getInputAndExecute() {
+        boolean status = false;
         try {
             int option = getValidInput();
-            executor.execute(option);
+            status = executor.execute(option);
         }
         catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        return status;
     }
 }
