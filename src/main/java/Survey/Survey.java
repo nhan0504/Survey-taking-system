@@ -9,17 +9,9 @@ public class Survey implements Serializable {
     String name;
     List<Question> questions;
 
-    public Survey() {
+    private Survey() {
         this.name = "";
         this.questions = new ArrayList<>();
-    }
-
-    public static void displaySurvey() {
-        System.out.println("Display survey");
-        Survey survey = loadSurvey();
-        for (Question question : survey.questions) {
-            question.display();
-        }
     }
 
     public static void createSurvey() {
@@ -32,27 +24,24 @@ public class Survey implements Serializable {
         saveSurvey(survey);
     }
 
-    public static void modifySurvey() {
-        System.out.println("modify");
+    public static void displaySurvey() {
+        System.out.println("Display survey");
         Survey survey = loadSurvey();
-    }
-
-    public static void takeSurvey() {
-        System.out.println("take survey");
-        Survey survey = loadSurvey();
-        for(Question question : survey.questions) {
+        for (Question question : survey.questions) {
             question.display();
-
-            Scanner scanner = new Scanner(System.in);
-            System.out.print("Enter answer: ");
-            String input = scanner.nextLine();
-
-            question.setAnswer(input);
         }
-        saveSurveyAnswer(survey);
     }
 
-    private static void saveSurvey(Survey survey) {
+    public static Survey loadSurvey() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter survey name: ");
+        String input = scanner.nextLine();
+
+        String path = "surveys\\" + input + "\\" + input + ".txt";
+        return deserialize(path);
+    }
+
+    public static void saveSurvey(Survey survey) {
         boolean isSaved = false;
 
         while (!isSaved) {
@@ -74,6 +63,26 @@ public class Survey implements Serializable {
         }
     }
 
+    public static void takeSurvey() {
+        System.out.println("take survey");
+        Survey survey = loadSurvey();
+        for(Question question : survey.questions) {
+            question.display();
+
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Enter answer: ");
+            String input = scanner.nextLine();
+
+            question.setAnswer(input);
+        }
+        saveSurveyAnswer(survey);
+    }
+
+    public static void modifySurvey() {
+        System.out.println("modify");
+        Survey survey = loadSurvey();
+    }
+
     private static void saveSurveyAnswer(Survey survey) {
         boolean isSaved = false;
 
@@ -91,15 +100,6 @@ public class Survey implements Serializable {
                 System.out.println("Name already exists");
             }
         }
-    }
-
-    public static Survey loadSurvey() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter survey name: ");
-        String input = scanner.nextLine();
-
-        String path = "surveys\\" + input + "\\" + input + ".txt";
-        return deserialize(path);
     }
 
     public void addQuestion(Question question) {

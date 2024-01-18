@@ -1,11 +1,12 @@
 package Menu;
 
-import Survey.Survey;
+import Executor.Executor;
 
 import java.util.*;
 
-public abstract class Menu {
+public abstract class Menu<T> {
     protected List<String> options;
+    protected Executor<T> executor;
 
     public void display() {
         for (int i = 0; i < options.size(); i++) {
@@ -36,12 +37,10 @@ public abstract class Menu {
         return idx;
     }
 
-    protected abstract void execute(int option);
-
     public void getInputAndExecute() {
         try {
             int option = getValidInput();
-            execute(option);
+            executor.execute(option);
         }
         catch (Exception e) {
             System.out.println(e.getMessage());

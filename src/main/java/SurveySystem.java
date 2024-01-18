@@ -1,5 +1,6 @@
 import Menu.Menu;
-import Menu.StartMenu;
+import Menu.StartSurveyMenu;
+import Survey.Survey;
 
 import java.io.File;
 
@@ -8,7 +9,7 @@ public class SurveySystem {
         File directory = new File(".\\surveys");
         directory.mkdir();
 
-        Menu menu = new StartMenu();
+        Menu<Survey> menu = new StartSurveyMenu();
 
         while(true) {
             menu.display();
