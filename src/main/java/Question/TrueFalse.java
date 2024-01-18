@@ -3,8 +3,12 @@ package Question;
 import java.util.Scanner;
 
 enum TrueFalseAnswer {
-    TRUE,
-    FALSE
+    yes,
+    Yes,
+    YES,
+    no,
+    No,
+    NO
 }
 
 public class TrueFalse extends Question {
@@ -14,7 +18,7 @@ public class TrueFalse extends Question {
 
     @Override
     public void display() {
-        System.out.println(this.question);
+        System.out.println(this.question + " Answer yes/no");
     }
 
     public boolean isValidAnswer(String answer) {
