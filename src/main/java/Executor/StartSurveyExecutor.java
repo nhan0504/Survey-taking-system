@@ -14,7 +14,7 @@ public class StartSurveyExecutor implements Executor<Survey> {
                 Survey.displaySurvey(currentSurvey);
                 return true;
             case 2:
-                Survey.loadSurvey(currentSurvey);
+                currentSurvey = Survey.loadSurvey();
                 return true;
             case 3:
                 Survey.saveSurvey(currentSurvey);

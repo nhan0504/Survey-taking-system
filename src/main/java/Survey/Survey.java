@@ -37,13 +37,13 @@ public class Survey implements Serializable {
         }
     }
 
-    public static void loadSurvey(Survey currentSurvey) {
+    public static Survey loadSurvey() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter survey name to load: ");
         String input = scanner.nextLine();
 
         String path = "surveys\\" + input + "\\" + input + ".txt";
-        currentSurvey = deserialize(path);
+        return deserialize(path);
     }
 
     public static void saveSurvey(Survey currentSurvey) {
@@ -77,7 +77,10 @@ public class Survey implements Serializable {
     }
 
     public static void modifySurvey(Survey currentSurvey) {
-        System.out.println("modify");
+        System.out.print("Which question do you want to modify? ");
+        Scanner scanner = new Scanner(System.in);
+        int index = Integer.parseInt(scanner.nextLine()) - 1;
+        currentSurvey.questions.get(index).modify();
     }
 
     public static void addTF(Survey currentSurvey) {

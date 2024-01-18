@@ -36,4 +36,23 @@ public class Matching extends Question{
     public boolean isValidAnswer(String answer) {
         return true;
     }
+
+    @Override
+    public void modify() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Do you want to modify the question prompt? ");
+        String answer = scanner.nextLine();
+        if (answer.contentEquals("yes")) {
+            System.out.print("Enter new prompt for question");
+            this.question = scanner.nextLine();
+        }
+        System.out.print("Do you want to modify the option? ");
+        answer = scanner.nextLine();
+        if (answer.contentEquals("yes")) {
+            System.out.println("Which option do you want to modify?");
+            int option = Integer.parseInt(scanner.nextLine());
+            System.out.print("Enter new value for option " + option + ": ");
+            this.options.set(option - 1, scanner.nextLine());
+        }
+    }
 }

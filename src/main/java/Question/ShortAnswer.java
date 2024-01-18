@@ -1,6 +1,7 @@
 package Question;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class ShortAnswer extends Question{
     public ShortAnswer(String question) {
@@ -14,5 +15,12 @@ public class ShortAnswer extends Question{
 
     public boolean isValidAnswer(String answer) {
         return true;
+    }
+
+    @Override
+    public void modify() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter new prompt for question");
+        this.question = scanner.nextLine();
     }
 }

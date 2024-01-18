@@ -29,4 +29,6 @@ public abstract class Question implements Serializable {
     public abstract boolean isValidAnswer(String answer);
 
     public abstract void display();
+
+    public abstract void modify();
 }
