@@ -1,3 +1,4 @@
+import Executor.StartSurveyExecutor;
 import Menu.Menu;
 import Menu.StartSurveyMenu;
 import Survey.Survey;
@@ -9,7 +10,7 @@ public class SurveySystem {
         File directory = new File(".\\surveys");
         directory.mkdir();
 
-        Menu<Survey> menu = new StartSurveyMenu();
+        Menu<Survey> menu = new StartSurveyMenu(new StartSurveyExecutor());
 
         while(true) {
             menu.display();

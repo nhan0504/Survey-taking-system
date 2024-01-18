@@ -1,5 +1,8 @@
 package Survey;
 
+import Executor.CreateSurveyExecutor;
+import Menu.CreateSurveyMenu;
+import Menu.Menu;
 import Question.Question;
 
 import java.io.*;
@@ -14,34 +17,38 @@ public class Survey implements Serializable {
         this.questions = new ArrayList<>();
     }
 
-    public static void createSurvey() {
-        System.out.println("Create survey");
+    public static Survey createSurvey() {
+        Survey newSurvey = new Survey();
+        Menu<Survey> createMenu = new CreateSurveyMenu(new CreateSurveyExecutor(newSurvey));
 
-        Survey survey = new Survey();
-        survey.addQuestion(new Question("HIHII ???"));
-        survey.addQuestion(new Question("Am I a question?"));
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("How many question do you want on the survey? ");
+        String input = scanner.nextLine();
 
-        saveSurvey(survey);
+        for (int i = 0; i < Integer.parseInt(input); i++) {
+            createMenu.display();
+            createMenu.getInputAndExecute();
+        }
+
+        return newSurvey;
     }
 
-    public static void displaySurvey() {
-        System.out.println("Display survey");
-        Survey survey = loadSurvey();
-        for (Question question : survey.questions) {
+    public static void displaySurvey(Survey currentSurvey) {
+        for (Question question : currentSurvey.questions) {
             question.display();
         }
     }
 
-    public static Survey loadSurvey() {
+    public static void loadSurvey(Survey currentSurvey) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter survey name: ");
+        System.out.println("Enter survey name to load: ");
         String input = scanner.nextLine();
 
         String path = "surveys\\" + input + "\\" + input + ".txt";
-        return deserialize(path);
+        currentSurvey = deserialize(path);
     }
 
-    public static void saveSurvey(Survey survey) {
+    public static void saveSurvey(Survey currentSurvey) {
         boolean isSaved = false;
 
         while (!isSaved) {
@@ -49,12 +56,12 @@ public class Survey implements Serializable {
             System.out.println("Enter survey name to save");
             String surveyName = scanner.nextLine();
 
-            survey.name = surveyName;
+            currentSurvey.name = surveyName;
 
             File directory = new File("surveys\\" + surveyName);
             if (directory.mkdir()) {
                 String path = "surveys\\" + surveyName + "\\" + surveyName + ".txt";
-                serialize(path, survey);
+                serialize(path, currentSurvey);
                 System.out.println("Saved");
                 isSaved = true;
             } else {
@@ -63,10 +70,8 @@ public class Survey implements Serializable {
         }
     }
 
-    public static void takeSurvey() {
-        System.out.println("take survey");
-        Survey survey = loadSurvey();
-        for(Question question : survey.questions) {
+    public static void takeSurvey(Survey currentSurvey) {
+        for(Question question : currentSurvey.questions) {
             question.display();
 
             Scanner scanner = new Scanner(System.in);
@@ -75,12 +80,41 @@ public class Survey implements Serializable {
 
             question.setAnswer(input);
         }
-        saveSurveyAnswer(survey);
+        saveSurveyAnswer(currentSurvey);
     }
 
-    public static void modifySurvey() {
+    public static void modifySurvey(Survey currentSurvey) {
         System.out.println("modify");
-        Survey survey = loadSurvey();
+    }
+
+    public static void addTF(Survey currentSurvey) {
+        System.out.println("Adding true false question");
+        currentSurvey.addQuestion(new Question("TRUE ???"));
+    }
+
+    public static void addMultipleChoice(Survey currentSurvey) {
+        System.out.println("Adding multiple choice question");
+        currentSurvey.addQuestion(new Question("Muti hihi?"));
+    }
+
+    public static void addShortAnswer(Survey currentSurvey) {
+        System.out.println("Adding short answer question");
+        currentSurvey.addQuestion(new Question("Am I a question?"));
+    }
+
+    public static void addEssay(Survey currentSurvey) {
+        System.out.println("Adding essay question");
+        currentSurvey.addQuestion(new Question("Is this an essay?"));
+    }
+
+    public static void addDate(Survey currentSurvey) {
+        System.out.println("Adding date question");
+        currentSurvey.addQuestion(new Question("What day is it?"));
+    }
+
+    public static void addMatching(Survey currentSurvey) {
+        System.out.println("Adding matching question");
+        currentSurvey.addQuestion(new Question("Are you a match maker?"));
     }
 
     private static void saveSurveyAnswer(Survey survey) {
@@ -102,7 +136,7 @@ public class Survey implements Serializable {
         }
     }
 
-    public void addQuestion(Question question) {
+    private void addQuestion(Question question) {
         this.questions.add(question);
     }
 
