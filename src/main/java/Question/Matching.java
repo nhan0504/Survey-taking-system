@@ -22,10 +22,23 @@ public class Matching extends Question{
 
     public void getOptions() {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("How many options do you want to add? ");
-        String input = scanner.nextLine();
 
-        for (int i = 0; i < Integer.parseInt(input); i++) {
+        int maxNumOption = 10;
+        int numOption = 0;
+
+        while (true) {
+            System.out.print("How many options do you want to add? Must be less than " + maxNumOption + ": ");
+            String input = scanner.nextLine();
+            try {
+                numOption = Integer.parseInt(input);
+                if (numOption <= 0 || numOption >= maxNumOption) continue;
+                break;
+            } catch (Exception e) {
+                System.out.println("Please enter a number");
+            }
+        }
+
+        for (int i = 0; i < numOption; i++) {
             int index = i + 1;
             System.out.print("Enter option " + index + ": ");
             String option = scanner.nextLine();
