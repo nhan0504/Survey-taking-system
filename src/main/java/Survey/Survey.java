@@ -19,8 +19,22 @@ public class Survey implements Serializable {
     }
 
     public static Survey createSurvey() {
+        Scanner scanner = new Scanner(System.in);
         Survey newSurvey = new Survey();
         Menu<Survey> createMenu = new CreateSurveyMenu(new CreateSurveyExecutor(newSurvey));
+
+        while (true) {
+            System.out.print("Enter survey name: ");
+            String surveyName = scanner.nextLine();
+
+            File folder = new File("surveys\\" + surveyName);
+            if (!folder.exists()) {
+                newSurvey.name = surveyName;
+                break;
+            } else {
+                System.out.println("A survey with this name already exist");
+            }
+        }
 
         boolean running = true;
         while (running) {
@@ -53,7 +67,7 @@ public class Survey implements Serializable {
         Survey survey;
 
         while(true) {
-            System.out.println("Enter survey name to load: ");
+            System.out.print("Enter survey name to load: ");
             String input = scanner.nextLine();
             String path = "surveys\\" + input + "\\" + input + ".txt";
 
@@ -80,23 +94,13 @@ public class Survey implements Serializable {
             return;
         }
 
-        while (true) {
-            Scanner scanner = new Scanner(System.in);
-            System.out.println("Enter survey name to save");
-            String surveyName = scanner.nextLine();
+        File directory = new File("surveys\\" + currentSurvey.name);
+        directory.mkdir();
 
-            currentSurvey.name = surveyName;
+        String path = "surveys\\" + currentSurvey.name + "\\" + currentSurvey.name + ".txt";
+        serialize(path, currentSurvey);
 
-            File directory = new File("surveys\\" + surveyName);
-            if (directory.mkdir()) {
-                String path = "surveys\\" + surveyName + "\\" + surveyName + ".txt";
-                serialize(path, currentSurvey);
-                System.out.println("Saved");
-                break;
-            } else {
-                System.out.println("Survey already exist");
-            }
-        }
+        System.out.println("Saved");
     }
 
     public static void takeSurvey(Survey currentSurvey) {
@@ -147,6 +151,8 @@ public class Survey implements Serializable {
                 System.out.println("Invalid question number");
             }
         }
+
+        saveSurvey(currentSurvey);
     }
 
     public static void addTF(Survey currentSurvey) {
