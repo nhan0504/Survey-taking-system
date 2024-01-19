@@ -34,5 +34,9 @@ public abstract class Question implements Serializable {
 
     public abstract void display();
 
-    public abstract void modify();
+    public void modify() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter new prompt for question: ");
+        this.question = scanner.nextLine();
+    }
 }

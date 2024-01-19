@@ -17,11 +17,4 @@ public class ShortAnswer extends Question{
     public boolean isValidAnswer(String answer) {
         return answer.length() <= maxCharacter;
     }
-
-    @Override
-    public void modify() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter new prompt for question");
-        this.question = scanner.nextLine();
-    }
 }

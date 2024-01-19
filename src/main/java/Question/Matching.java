@@ -19,7 +19,7 @@ public class Matching extends Question{
 
     @Override
     public void display() {
-        System.out.println(this.question + " Enter your answer in the format 1-A");
+        System.out.println(this.question + " Enter your answer in the format A-1");
         char index1 = 'A';
         int index2 = 1;
         int numSpace = maxValueLength + 3;
@@ -81,6 +81,25 @@ public class Matching extends Question{
         return value.length() < maxValueLength;
     }
 
+    @Override
+    public void getAnswer() {
+        Scanner scanner = new Scanner(System.in);
+        String answer;
+        for (int i = 0; i < columns.get(0).size(); i++) {
+            int numberDisplay = i + 1;
+            while (true) {
+                System.out.print("Enter answer " + numberDisplay + ": ");
+                answer = scanner.nextLine();
+                if (isValidAnswer(answer)) {
+                    break;
+                } else {
+                    System.out.println("Answer is invalid");
+                }
+            }
+            this.answers.add(answer);
+        }
+    }
+
     public boolean isValidAnswer(String answer) {
         int size = columns.get(0).size();
         String regex = "^[A-" + (char)('A' + size - 1) + "]\\-[1-" + size + "]$";
@@ -97,23 +116,23 @@ public class Matching extends Question{
         modifyPrompt.display();
         modifyPrompt.getAnswer();
         if (modifyPrompt.answers.get(0).equals("yes")) {
-            System.out.print("Enter new prompt for question");
+            System.out.print("Enter new prompt for question: ");
             this.question = scanner.nextLine();
         }
 
         for (int i = 0; i < columns.size(); i++) {
-            int column = i + 1;
-            TrueFalse modifyColumn = new TrueFalse("Do you want to modify column " + column + " values?");
+            int numberDisplay = i + 1;
+            TrueFalse modifyColumn = new TrueFalse("Do you want to modify column " + numberDisplay + " values?");
             modifyColumn.display();
             modifyColumn.getAnswer();
 
             if (modifyColumn.answers.get(0).equals("yes")) {
                 while (true) {
-                    System.out.println("Which value do you want to modify? Enter a number starting from 1.");
+                    System.out.print("Which value do you want to modify? Enter a number starting from 1 ");
                     try {
                         int index = Integer.parseInt(scanner.nextLine());
-                        if (index >= 1 && index <= this.columns.get(column).size()) {
-                            System.out.print("Enter new value for option " + index + ": ");
+                        if (index >= 1 && index <= this.columns.get(i).size()) {
+                            System.out.print("Enter new value for value " + index + ": ");
                             this.columns.get(i).set(index - 1, scanner.nextLine());
                             break;
                         } else {

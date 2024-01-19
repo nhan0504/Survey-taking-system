@@ -133,7 +133,7 @@ public class Survey implements Serializable {
         displaySurvey(currentSurvey);
 
         while (true) {
-            System.out.print("Which question do you want to modify? Please enter a number starting from 1");
+            System.out.print("Which question do you want to modify? Please enter a number starting from 1: ");
             Scanner scanner = new Scanner(System.in);
             try {
                 int index = Integer.parseInt(scanner.nextLine()) - 1;

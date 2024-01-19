@@ -59,7 +59,7 @@ public class MultipleChoice extends Question {
         modifyPrompt.display();
         modifyPrompt.getAnswer();
         if (modifyPrompt.answers.get(0).equals("yes")) {
-            System.out.print("Enter new prompt for question");
+            System.out.print("Enter new prompt for question: ");
             this.question = scanner.nextLine();
         }
 
@@ -68,7 +68,7 @@ public class MultipleChoice extends Question {
         modifyOption.getAnswer();
         if (modifyOption.answers.get(0).equals("yes")) {
             while (true) {
-                System.out.println("Which option do you want to modify? Please enter a number");
+                System.out.print("Which option do you want to modify? Please enter a number ");
                 try {
                     int option = Integer.parseInt(scanner.nextLine());
                     if (option >= 1 && option <= this.options.size()) {

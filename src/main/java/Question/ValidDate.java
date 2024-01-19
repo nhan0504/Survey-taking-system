@@ -25,11 +25,4 @@ public class ValidDate extends Question {
             return false;
         }
     }
-
-    @Override
-    public void modify() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter new prompt for question");
-        this.question = scanner.nextLine();
-    }
 }
