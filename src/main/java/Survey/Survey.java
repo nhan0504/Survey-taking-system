@@ -32,6 +32,11 @@ public class Survey implements Serializable {
     }
 
     public static void displaySurvey(Survey currentSurvey) {
+        if (currentSurvey == null) {
+            System.out.println("Must load or create a survey before displaying it");
+            return;
+        }
+
         System.out.println("-~-~-~-~-~-~-~-~-~-~-~-~-~-~Survey-~-~-~-~-~-~-~-~-~-~-~-~-~-~");
         System.out.println();
         int index = 1;
@@ -65,6 +70,11 @@ public class Survey implements Serializable {
     }
 
     public static void saveSurvey(Survey currentSurvey) {
+        if (currentSurvey == null) {
+            System.out.println("Must create a survey before saving it");
+            return;
+        }
+
         if (currentSurvey.questions.isEmpty()) {
             System.out.println("Cannot save empty survey");
             return;
@@ -90,6 +100,16 @@ public class Survey implements Serializable {
     }
 
     public static void takeSurvey(Survey currentSurvey) {
+        if (currentSurvey == null) {
+            System.out.println("Must load or create a survey before taking it");
+            return;
+        }
+
+        if (currentSurvey.name.isEmpty()) {
+            System.out.println("You must save the survey before taking it");
+            return;
+        }
+
         System.out.println("-~-~-~-~-~-~-~-~-~-~-~-~-~-~Survey-~-~-~-~-~-~-~-~-~-~-~-~-~-~");
         System.out.println();
         int index = 1;
@@ -105,6 +125,11 @@ public class Survey implements Serializable {
     }
 
     public static void modifySurvey(Survey currentSurvey) {
+        if (currentSurvey == null) {
+            System.out.println("Must load or create a survey before modifying it");
+            return;
+        }
+
         while (true) {
             System.out.print("Which question do you want to modify? Please enter a number starting from 1");
             Scanner scanner = new Scanner(System.in);

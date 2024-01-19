@@ -16,6 +16,8 @@ public class SurveySystem {
         while(running) {
             menu.display();
             running = menu.getInputAndExecute();
+            System.out.println();
+            System.out.println();
         }
     }
 }

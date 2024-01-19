@@ -54,19 +54,34 @@ public class MultipleChoice extends Question {
     @Override
     public void modify() {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Do you want to modify the question prompt? ");
-        String answer = scanner.nextLine();
-        if (answer.contentEquals("yes")) {
+
+        TrueFalse modifyPrompt = new TrueFalse("Do you want to modify the question prompt? ");
+        modifyPrompt.display();
+        modifyPrompt.getAnswer();
+        if (modifyPrompt.answers.get(0).equals("yes")) {
             System.out.print("Enter new prompt for question");
             this.question = scanner.nextLine();
         }
-        System.out.print("Do you want to modify the option? ");
-        answer = scanner.nextLine();
-        if (answer.contentEquals("yes")) {
-            System.out.println("Which option do you want to modify?");
-            int option = Integer.parseInt(scanner.nextLine());
-            System.out.print("Enter new value for option " + option + ": ");
-            this.options.set(option - 1, scanner.nextLine());
+
+        TrueFalse modifyOption = new TrueFalse("Do you want to modify the option? ");
+        modifyPrompt.display();
+        modifyPrompt.getAnswer();
+        if (modifyOption.answers.get(0).equals("yes")) {
+            while (true) {
+                System.out.println("Which option do you want to modify? Please enter a number");
+                try {
+                    int option = Integer.parseInt(scanner.nextLine());
+                    if (option >= 1 && option <= this.options.size()) {
+                        System.out.print("Enter new value for option " + option + ": ");
+                        this.options.set(option - 1, scanner.nextLine());
+                        break;
+                    } else {
+                        System.out.println("Option out of range");
+                    }
+                } catch (Exception e) {
+                    System.out.println("Invalid option number");
+                }
+            }
         }
     }
 }
