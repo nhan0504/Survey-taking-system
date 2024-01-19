@@ -63,24 +63,41 @@ public class Survey implements Serializable {
     }
 
     public static Survey loadSurvey() {
+        File surveysFolder = new File("surveys");
+        String[] allSurveys = surveysFolder.list();
+
+        if (allSurveys.length == 0) {
+            System.out.println("No surveys to load");
+            return null;
+        }
+
+        for (int i = 1; i <= allSurveys.length; i++) {
+            System.out.print(i + ". ");
+            System.out.println(allSurveys[i - 1]);
+        }
+
+
         Scanner scanner = new Scanner(System.in);
-        Survey survey;
+        String path;
 
         while(true) {
-            System.out.print("Enter survey name to load: ");
+            System.out.print("Which survey do you want to load? Enter a number: ");
             String input = scanner.nextLine();
-            String path = "surveys\\" + input + "\\" + input + ".txt";
 
             try {
-                survey = deserialize(path);
-                break;
-            }
-            catch (Exception e) {
-                System.out.println("Cannot find survey");
+                int surveyIndex = Integer.parseInt(input) - 1;
+                if (surveyIndex >= 0 && surveyIndex < allSurveys.length) {
+                    path = "surveys\\" + allSurveys[surveyIndex] + "\\" + allSurveys[surveyIndex] + ".txt";
+                    break;
+                } else {
+                    System.out.println("Number out of range");
+                }
+            } catch (Exception e) {
+                System.out.println("Please enter a number");
             }
         }
 
-        return survey;
+        return deserialize(path);
     }
 
     public static void saveSurvey(Survey currentSurvey) {
@@ -100,7 +117,7 @@ public class Survey implements Serializable {
         String path = "surveys\\" + currentSurvey.name + "\\" + currentSurvey.name + ".txt";
         serialize(path, currentSurvey);
 
-        System.out.println("Saved");
+        displaySurvey(currentSurvey);
     }
 
     public static void takeSurvey(Survey currentSurvey) {
@@ -215,8 +232,16 @@ public class Survey implements Serializable {
         }
     }
 
-    private static Survey deserialize(String path) throws Exception {
-        ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(path));
-        return (Survey) inputStream.readObject();
+    private static Survey deserialize(String path) {
+        Survey survey = new Survey();
+
+        try {
+            ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(path));
+            survey = (Survey) inputStream.readObject();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return survey;
     }
 }
