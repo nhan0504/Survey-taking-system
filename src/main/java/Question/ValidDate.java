@@ -14,7 +14,7 @@ public class ValidDate extends Question {
 
     @Override
     public void display() {
-        System.out.println(this.question + " Enter date in the format mm-dd-yyyy");
+        System.out.println(this.question + " Enter date in the format yyyy-mm-dd");
     }
 
     public boolean isValidAnswer(String answer) {

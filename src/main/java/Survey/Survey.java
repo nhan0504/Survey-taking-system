@@ -105,10 +105,21 @@ public class Survey implements Serializable {
     }
 
     public static void modifySurvey(Survey currentSurvey) {
-        System.out.print("Which question do you want to modify? ");
-        Scanner scanner = new Scanner(System.in);
-        int index = Integer.parseInt(scanner.nextLine()) - 1;
-        currentSurvey.questions.get(index).modify();
+        while (true) {
+            System.out.print("Which question do you want to modify? Please enter a number starting from 1");
+            Scanner scanner = new Scanner(System.in);
+            try {
+                int index = Integer.parseInt(scanner.nextLine()) - 1;
+                if (index >= 0 && index < currentSurvey.questions.size()) {
+                    currentSurvey.questions.get(index).modify();
+                    break;
+                } else {
+                    System.out.println("Number out of range");
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid question number");
+            }
+        }
     }
 
     public static void addTF(Survey currentSurvey) {
