@@ -19,9 +19,7 @@ public abstract class Menu<T> {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Choose an option: ");
         String input = scanner.nextLine();
-
         return isValid(input);
-
     }
 
     private int isValid(String input) throws Exception {
@@ -38,7 +36,7 @@ public abstract class Menu<T> {
     }
 
     public boolean getInputAndExecute() {
-        boolean status = false;
+        boolean status = true;
         try {
             int option = getValidInput();
             status = executor.execute(option);

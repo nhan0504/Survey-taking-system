@@ -64,8 +64,8 @@ public class MultipleChoice extends Question {
         }
 
         TrueFalse modifyOption = new TrueFalse("Do you want to modify the option? ");
-        modifyPrompt.display();
-        modifyPrompt.getAnswer();
+        modifyOption.display();
+        modifyOption.getAnswer();
         if (modifyOption.answers.get(0).equals("yes")) {
             while (true) {
                 System.out.println("Which option do you want to modify? Please enter a number");

@@ -130,6 +130,8 @@ public class Survey implements Serializable {
             return;
         }
 
+        displaySurvey(currentSurvey);
+
         while (true) {
             System.out.print("Which question do you want to modify? Please enter a number starting from 1");
             Scanner scanner = new Scanner(System.in);
