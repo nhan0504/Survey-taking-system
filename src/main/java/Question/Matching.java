@@ -3,20 +3,32 @@ package Question;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Matching extends Question{
-    public List<String> options;
+    int maxValueLength = 30;
+    public List<List<String>> columns;
 
     public Matching(String question) {
         super(question);
-        this.options = new ArrayList<>();
+        this.columns = new ArrayList<>();
+        columns.add(new ArrayList<>());
+        columns.add(new ArrayList<>());
     }
 
     @Override
     public void display() {
-        System.out.println(this.question);
-        for (String option : this.options) {
-            System.out.println(option);
+        System.out.println(this.question + " Enter your answer in the format 1-A");
+        char index1 = 'A';
+        int index2 = 1;
+        int numSpace = maxValueLength + 3;
+        for (int i = 0; i < columns.get(0).size(); i++) {
+            System.out.print(index1++ + ". " + columns.get(0).get(i));
+            for (int s = 0; s < numSpace - columns.get(0).get(i).length(); s++) {
+                System.out.print(" ");
+            }
+            System.out.println(index2++ + ") " + columns.get(1).get(i));
         }
     }
 
@@ -24,48 +36,81 @@ public class Matching extends Question{
         Scanner scanner = new Scanner(System.in);
 
         int maxNumOption = 10;
-        int numOption = 0;
+        int numValue = 0;
 
         while (true) {
-            System.out.print("How many options do you want to add? Must be less than " + maxNumOption + ": ");
+            System.out.print("How many value do you want to add in each column? Must be less than " + maxNumOption + ": ");
             String input = scanner.nextLine();
             try {
-                numOption = Integer.parseInt(input);
-                if (numOption <= 0 || numOption >= maxNumOption) continue;
+                numValue = Integer.parseInt(input);
+                if (numValue <= 0 || numValue >= maxNumOption) continue;
                 break;
             } catch (Exception e) {
                 System.out.println("Please enter a number");
             }
         }
 
-        for (int i = 0; i < numOption; i++) {
-            int index = i + 1;
-            System.out.print("Enter option " + index + ": ");
-            String option = scanner.nextLine();
-            this.options.add(option);
+        for (int i = 0; i < columns.size(); i++) {
+            getValueForColumn(i, numValue);
         }
     }
 
+    private void getValueForColumn(int column, int numValue) {
+        Scanner scanner = new Scanner(System.in);
+        int numberDisplay = column + 1;
+        System.out.println("Enter value for column " + numberDisplay);
+
+        for (int i = 0; i < numValue; i++) {
+            int index = i + 1;
+
+            while (true) {
+                System.out.print("Enter value " + index + ": ");
+                String value = scanner.nextLine();
+
+                if (isValidValue(value)) {
+                    this.columns.get(column).add(value);
+                    break;
+                } else {
+                    System.out.println("Value too long");
+                }
+            }
+        }
+    }
+
+    private boolean isValidValue(String value) {
+        return value.length() < maxValueLength;
+    }
+
     public boolean isValidAnswer(String answer) {
-        return true;
+        int size = columns.get(0).size();
+        String regex = "^[A-" + (char)('A' + size - 1) + "]\\-[1-" + size + "]$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(answer);
+        return matcher.matches();
     }
 
     @Override
     public void modify() {
         Scanner scanner = new Scanner(System.in);
+
         System.out.print("Do you want to modify the question prompt? ");
         String answer = scanner.nextLine();
         if (answer.contentEquals("yes")) {
             System.out.print("Enter new prompt for question");
             this.question = scanner.nextLine();
         }
-        System.out.print("Do you want to modify the option? ");
-        answer = scanner.nextLine();
-        if (answer.contentEquals("yes")) {
-            System.out.println("Which option do you want to modify?");
-            int option = Integer.parseInt(scanner.nextLine());
-            System.out.print("Enter new value for option " + option + ": ");
-            this.options.set(option - 1, scanner.nextLine());
+
+        for (int i = 0; i < columns.size(); i++) {
+            int column = i + 1;
+            System.out.print("Do you want to modify column " + column + " values?");
+
+            answer = scanner.nextLine();
+            if (answer.contentEquals("yes")) {
+                System.out.println("Which value do you want to modify? Enter a number starting from 1.");
+                int index = Integer.parseInt(scanner.nextLine());
+                System.out.print("Enter new value for option " + index + ": ");
+                this.columns.get(i).set(index - 1, scanner.nextLine());
+            }
         }
     }
 }

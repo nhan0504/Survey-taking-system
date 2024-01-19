@@ -48,7 +48,7 @@ public class MultipleChoice extends Question {
     }
 
     public boolean isValidAnswer(String answer) {
-        return true;
+        return answer.length() == 1 && 'A' <= answer.charAt(0) && answer.charAt(0) < 'A' + this.options.size();
     }
 
     @Override

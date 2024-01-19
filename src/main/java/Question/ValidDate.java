@@ -3,6 +3,8 @@ package Question;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ValidDate extends Question {
     public ValidDate(String question) {
@@ -15,7 +17,10 @@ public class ValidDate extends Question {
     }
 
     public boolean isValidAnswer(String answer) {
-        return true;
+        String regex = "^\\d{2}-\\d{2}-\\d{4}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(answer);
+        return matcher.matches();
     }
 
     @Override

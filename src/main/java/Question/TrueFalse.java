@@ -3,11 +3,7 @@ package Question;
 import java.util.Scanner;
 
 enum TrueFalseAnswer {
-    yes,
-    Yes,
     YES,
-    no,
-    No,
     NO
 }
 
@@ -22,7 +18,13 @@ public class TrueFalse extends Question {
     }
 
     public boolean isValidAnswer(String answer) {
-        return true;
+        answer = answer.toUpperCase();
+        try {
+            TrueFalseAnswer.valueOf(answer);
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
     }
 
     @Override
