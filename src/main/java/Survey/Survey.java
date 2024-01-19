@@ -45,17 +45,32 @@ public class Survey implements Serializable {
 
     public static Survey loadSurvey() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter survey name to load: ");
-        String input = scanner.nextLine();
+        Survey survey;
 
-        String path = "surveys\\" + input + "\\" + input + ".txt";
-        return deserialize(path);
+        while(true) {
+            System.out.println("Enter survey name to load: ");
+            String input = scanner.nextLine();
+            String path = "surveys\\" + input + "\\" + input + ".txt";
+
+            try {
+                survey = deserialize(path);
+                break;
+            }
+            catch (Exception e) {
+                System.out.println("Cannot find survey");
+            }
+        }
+
+        return survey;
     }
 
     public static void saveSurvey(Survey currentSurvey) {
-        boolean isSaved = false;
+        if (currentSurvey.questions.isEmpty()) {
+            System.out.println("Cannot save empty survey");
+            return;
+        }
 
-        while (!isSaved) {
+        while (true) {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Enter survey name to save");
             String surveyName = scanner.nextLine();
@@ -67,7 +82,7 @@ public class Survey implements Serializable {
                 String path = "surveys\\" + surveyName + "\\" + surveyName + ".txt";
                 serialize(path, currentSurvey);
                 System.out.println("Saved");
-                isSaved = true;
+                break;
             } else {
                 System.out.println("Survey already exist");
             }
@@ -156,13 +171,8 @@ public class Survey implements Serializable {
         }
     }
 
-    private static Survey deserialize(String path) {
-        try {
-            ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(path));
-            return (Survey) inputStream.readObject();
-        } catch (Exception e) {
-            System.out.println("Cannot find survey");
-        }
-        return null;
+    private static Survey deserialize(String path) throws Exception {
+        ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(path));
+        return (Survey) inputStream.readObject();
     }
 }

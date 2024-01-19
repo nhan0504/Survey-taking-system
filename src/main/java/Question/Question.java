@@ -17,11 +17,15 @@ public abstract class Question implements Serializable {
     public void getAnswer() {
         Scanner scanner = new Scanner(System.in);
         String answer = "";
-        boolean valid = false;
-        while (!valid) {
+
+        while (true) {
             System.out.print("Enter answer: ");
             answer = scanner.nextLine();
-            valid = isValidAnswer(answer);
+            if (isValidAnswer(answer)) {
+                break;
+            } else {
+                System.out.println("Answer is invalid");
+            }
         }
         this.answers.add(answer);
     }
