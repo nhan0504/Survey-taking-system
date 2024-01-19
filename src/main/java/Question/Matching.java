@@ -1,5 +1,7 @@
 package Question;
 
+import Utilities.Utilities;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -41,12 +43,9 @@ public class Matching extends Question{
         while (true) {
             System.out.print("How many value do you want to add in each column? Must be less than " + maxNumOption + ": ");
             String input = scanner.nextLine();
-            try {
+            if (Utilities.checkNumberInRange(input, 1, maxNumOption)) {
                 numValue = Integer.parseInt(input);
-                if (numValue <= 0 || numValue >= maxNumOption) continue;
                 break;
-            } catch (Exception e) {
-                System.out.println("Please enter a number");
             }
         }
 
@@ -129,17 +128,12 @@ public class Matching extends Question{
             if (modifyColumn.answers.get(0).equals("yes")) {
                 while (true) {
                     System.out.print("Which value do you want to modify? Enter a number starting from 1 ");
-                    try {
-                        int index = Integer.parseInt(scanner.nextLine());
-                        if (index >= 1 && index <= this.columns.get(i).size()) {
-                            System.out.print("Enter new value for value " + index + ": ");
-                            this.columns.get(i).set(index - 1, scanner.nextLine());
-                            break;
-                        } else {
-                            System.out.println("Number out of range");
-                        }
-                    } catch (Exception e) {
-                        System.out.println("Invalid value number");
+                    String input = scanner.nextLine();
+                    if (Utilities.checkNumberInRange(input, 1, this.columns.get(i).size() + 1)) {
+                        int index = Integer.parseInt(input);
+                        System.out.print("Enter new value for value " + index + ": ");
+                        this.columns.get(i).set(index - 1, scanner.nextLine());
+                        break;
                     }
                 }
             }

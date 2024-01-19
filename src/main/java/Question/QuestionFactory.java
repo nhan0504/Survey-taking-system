@@ -1,59 +1,115 @@
 package Question;
 
-import javax.swing.*;
-import java.util.Date;
+import Utilities.Utilities;
+
 import java.util.Scanner;
 
 public class QuestionFactory {
-    int maxQuestionPrompt = 100;
+    static int maxPromptLength = 100;
     public static Question createTrueFalse() {
         String input;
         while (true) {
             input = getUserInput();
-            if (input.length() <= 100) {
+            if (validPrompt(input)) {
                 return new TrueFalse(input);
             }
         }
     }
 
     public static Question createMultipleChoice() {
+        Scanner scanner = new Scanner(System.in);
+
         String input;
+        MultipleChoice question;
+
         while (true) {
             input = getUserInput();
-            if (input.length() <= 100) {
-                MultipleChoice question = new MultipleChoice(input);
-                question.getOptions();
+            if (validPrompt(input)) {
+                question = new MultipleChoice(input);
+                break;
+            }
+        }
+
+        question.getOptions();
+
+        while (true) {
+            System.out.println("How many response can this question take? ");
+            String numResponse = scanner.nextLine();
+            if (Utilities.checkNumberInRange(numResponse, 1, question.options.size() + 1)) {
+                question.numResponse = Integer.parseInt(numResponse);
                 return question;
             }
         }
     }
 
     public static Question createShortAnswer() {
+        Scanner scanner = new Scanner(System.in);
+
         String input;
+        ShortAnswer question;
+
         while (true) {
             input = getUserInput();
-            if (input.length() <= 100) {
-                return new ShortAnswer(input);
+            if (validPrompt(input)) {
+                question = new ShortAnswer(input);
+                break;
+            }
+        }
+
+        while (true) {
+            System.out.println("How many response can this question take? ");
+            String numResponse = scanner.nextLine();
+            if (Utilities.checkNumberInRange(numResponse, 1, 11)) {
+                question.numResponse = Integer.parseInt(numResponse);
+                return question;
             }
         }
     }
 
     public static Question createEssay() {
+        Scanner scanner = new Scanner(System.in);
+
         String input;
+        Essay question;
+
         while (true) {
             input = getUserInput();
-            if (input.length() <= 100) {
-                return new Essay(input);
+            if (validPrompt(input)) {
+                question = new Essay(input);
+                break;
+            }
+        }
+
+        while (true) {
+            System.out.println("How many response can this question take? ");
+            String numResponse = scanner.nextLine();
+            if (Utilities.checkNumberInRange(numResponse, 1, 11)) {
+                question.numResponse = Integer.parseInt(numResponse);
+                return question;
             }
         }
     }
 
     public static Question createDate() {
+        Scanner scanner = new Scanner(System.in);
+
         String input;
+        ValidDate question;
+
         while (true) {
             input = getUserInput();
-            if (input.length() <= 100) {
-                return new ValidDate(input);
+            if (validPrompt(input)) {
+                question = new ValidDate(input);
+                break;
+            }
+        }
+
+        while (true) {
+            System.out.println("How many response can this question take? ");
+            String numResponse = scanner.nextLine();
+            if (Utilities.checkNumberInRange(numResponse, 1, 11)) {
+                question.numResponse = Integer.parseInt(numResponse);
+                return question;
             }
         }
     }
@@ -65,6 +121,7 @@ public class QuestionFactory {
             if (input.length() <= 100) {
                 Matching question = new Matching(input);
                 question.getOptions();
+                question.numResponse = question.columns.get(0).size();
                 return question;
             }
         }
@@ -72,7 +129,11 @@ public class QuestionFactory {
 
     private static String getUserInput() {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter prompt for your question: ");
+        System.out.print("Enter prompt for your question (Max 100 char): ");
         return scanner.nextLine();
+    }
+
+    private static boolean validPrompt(String prompt) {
+        return !prompt.isEmpty() && prompt.length() < maxPromptLength;
     }
 }

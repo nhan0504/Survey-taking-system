@@ -1,5 +1,7 @@
 package Question;
 
+import Utilities.Utilities;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -30,12 +32,9 @@ public class MultipleChoice extends Question {
         while (true) {
             System.out.print("How many options do you want to add? Must be less than " + maxNumOption + ": ");
             String input = scanner.nextLine();
-            try {
+            if (Utilities.checkNumberInRange(input, 1, maxNumOption)) {
                 numOption = Integer.parseInt(input);
-                if (numOption <= 0 || numOption >= maxNumOption) continue;
                 break;
-            } catch (Exception e) {
-                System.out.println("Please enter a number");
             }
         }
 
@@ -69,17 +68,12 @@ public class MultipleChoice extends Question {
         if (modifyOption.answers.get(0).equals("yes")) {
             while (true) {
                 System.out.print("Which option do you want to modify? Please enter a number ");
-                try {
-                    int option = Integer.parseInt(scanner.nextLine());
-                    if (option >= 1 && option <= this.options.size()) {
-                        System.out.print("Enter new value for option " + option + ": ");
-                        this.options.set(option - 1, scanner.nextLine());
-                        break;
-                    } else {
-                        System.out.println("Option out of range");
-                    }
-                } catch (Exception e) {
-                    System.out.println("Invalid option number");
+                String input = scanner.nextLine();
+                if (Utilities.checkNumberInRange(input, 1, this.options.size() + 1)) {
+                    int index = Integer.parseInt(input);
+                    System.out.print("Enter new value for option " + index + ": ");
+                    this.options.set(index - 1, scanner.nextLine());
+                    break;
                 }
             }
         }

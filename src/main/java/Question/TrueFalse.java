@@ -10,6 +10,7 @@ enum TrueFalseAnswer {
 public class TrueFalse extends Question {
     public TrueFalse(String question) {
         super(question);
+        this.numResponse = 1;
     }
 
     @Override

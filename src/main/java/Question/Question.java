@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public abstract class Question implements Serializable {
+    int numResponse;
     protected String question;
     protected List<String> answers;
 
@@ -18,16 +19,18 @@ public abstract class Question implements Serializable {
         Scanner scanner = new Scanner(System.in);
         String answer = "";
 
-        while (true) {
-            System.out.print("Enter answer: ");
-            answer = scanner.nextLine();
-            if (isValidAnswer(answer)) {
-                break;
-            } else {
-                System.out.println("Answer is invalid");
+        for (int i = 0; i < numResponse; i++) {
+            while (true) {
+                System.out.print("Enter answer: ");
+                answer = scanner.nextLine();
+                if (isValidAnswer(answer)) {
+                    break;
+                } else {
+                    System.out.println("Answer is invalid");
+                }
             }
+            this.answers.add(answer);
         }
-        this.answers.add(answer);
     }
 
     public abstract boolean isValidAnswer(String answer);

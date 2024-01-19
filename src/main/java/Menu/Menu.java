@@ -1,6 +1,7 @@
 package Menu;
 
 import Executor.Executor;
+import Utilities.Utilities;
 
 import java.util.*;
 
@@ -15,24 +16,16 @@ public abstract class Menu<T> {
         }
     }
 
-    private int getValidInput() throws Exception{
+    private int getValidInput() {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Choose an option: ");
-        String input = scanner.nextLine();
-        return isValid(input);
-    }
-
-    private int isValid(String input) throws Exception {
-        int idx;
-        try {
-            idx = Integer.parseInt(input) - 1;
-        } catch (Exception e) {
-            throw new Exception("Invalid option");
+        String input;
+        while (true) {
+            System.out.print("Choose an option: ");
+            input = scanner.nextLine();
+            if (Utilities.checkNumberInRange(input, 1, options.size() + 1)) {
+                return Integer.parseInt(input);
+            }
         }
-        if (idx < 0 || idx >= options.size()) {
-            throw new Exception("Invalid option");
-        }
-        return idx;
     }
 
     public boolean getInputAndExecute() {

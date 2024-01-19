@@ -5,6 +5,7 @@ import Menu.CreateSurveyMenu;
 import Menu.Menu;
 import Question.Question;
 import Question.QuestionFactory;
+import Utilities.Utilities;
 
 import java.io.*;
 import java.util.*;
@@ -83,17 +84,10 @@ public class Survey implements Serializable {
         while(true) {
             System.out.print("Which survey do you want to load? Enter a number: ");
             String input = scanner.nextLine();
-
-            try {
-                int surveyIndex = Integer.parseInt(input) - 1;
-                if (surveyIndex >= 0 && surveyIndex < allSurveys.length) {
-                    path = "surveys\\" + allSurveys[surveyIndex] + "\\" + allSurveys[surveyIndex] + ".txt";
-                    break;
-                } else {
-                    System.out.println("Number out of range");
-                }
-            } catch (Exception e) {
-                System.out.println("Please enter a number");
+            if (Utilities.checkNumberInRange(input, 1, allSurveys.length + 1)) {
+                int surveyIndex = Integer.parseInt(input);
+                path = "surveys\\" + allSurveys[surveyIndex] + "\\" + allSurveys[surveyIndex] + ".txt";
+                break;
             }
         }
 
@@ -156,16 +150,10 @@ public class Survey implements Serializable {
         while (true) {
             System.out.print("Which question do you want to modify? Please enter a number starting from 1: ");
             Scanner scanner = new Scanner(System.in);
-            try {
-                int index = Integer.parseInt(scanner.nextLine()) - 1;
-                if (index >= 0 && index < currentSurvey.questions.size()) {
-                    currentSurvey.questions.get(index).modify();
-                    break;
-                } else {
-                    System.out.println("Number out of range");
-                }
-            } catch (Exception e) {
-                System.out.println("Invalid question number");
+            String input = scanner.nextLine();
+            if (Utilities.checkNumberInRange(input, 1, currentSurvey.questions.size() + 1)) {
+                currentSurvey.questions.get(Integer.parseInt(input) - 1).modify();
+                break;
             }
         }
 
