@@ -1,5 +1,6 @@
 package Question;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -17,10 +18,12 @@ public class ValidDate extends Question {
     }
 
     public boolean isValidAnswer(String answer) {
-        String regex = "^\\d{2}-\\d{2}-\\d{4}$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(answer);
-        return matcher.matches();
+        try {
+            LocalDate.parse(answer);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
