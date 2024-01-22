@@ -29,14 +29,7 @@ public abstract class Menu<T> {
     }
 
     public boolean getInputAndExecute() {
-        boolean status = true;
-        try {
-            int option = getValidInput();
-            status = executor.execute(option);
-        }
-        catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return status;
+        int option = getValidInput();
+        return executor.execute(option - 1);
     }
 }

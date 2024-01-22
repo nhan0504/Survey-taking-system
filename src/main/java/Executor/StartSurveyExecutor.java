@@ -28,9 +28,4 @@ public class StartSurveyExecutor implements Executor<Survey> {
         }
         return false;
     }
-
-    @Override
-    public Survey getCurrentObject() {
-        return this.currentSurvey;
-    }
 }

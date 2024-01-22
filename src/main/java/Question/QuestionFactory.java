@@ -5,12 +5,11 @@ import Utilities.Utilities;
 import java.util.Scanner;
 
 public class QuestionFactory {
-    static int maxPromptLength = 100;
     public static Question createTrueFalse() {
         String input;
         while (true) {
             input = getUserInput();
-            if (validPrompt(input)) {
+            if (Question.validPrompt(input)) {
                 return new TrueFalse(input);
             }
         }
@@ -24,7 +23,7 @@ public class QuestionFactory {
 
         while (true) {
             input = getUserInput();
-            if (validPrompt(input)) {
+            if (Question.validPrompt(input)) {
                 question = new MultipleChoice(input);
                 break;
             }
@@ -50,7 +49,7 @@ public class QuestionFactory {
 
         while (true) {
             input = getUserInput();
-            if (validPrompt(input)) {
+            if (Question.validPrompt(input)) {
                 question = new ShortAnswer(input);
                 break;
             }
@@ -74,7 +73,7 @@ public class QuestionFactory {
 
         while (true) {
             input = getUserInput();
-            if (validPrompt(input)) {
+            if (Question.validPrompt(input)) {
                 question = new Essay(input);
                 break;
             }
@@ -98,7 +97,7 @@ public class QuestionFactory {
 
         while (true) {
             input = getUserInput();
-            if (validPrompt(input)) {
+            if (Question.validPrompt(input)) {
                 question = new ValidDate(input);
                 break;
             }
@@ -131,9 +130,5 @@ public class QuestionFactory {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter prompt for your question (Max 100 char): ");
         return scanner.nextLine();
-    }
-
-    private static boolean validPrompt(String prompt) {
-        return !prompt.isEmpty() && prompt.length() < maxPromptLength;
     }
 }

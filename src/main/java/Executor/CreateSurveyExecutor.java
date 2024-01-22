@@ -32,9 +32,4 @@ public class CreateSurveyExecutor implements Executor<Survey> {
         }
         return false;
     }
-
-    @Override
-    public Survey getCurrentObject() {
-        return this.currentSurvey;
-    }
 }

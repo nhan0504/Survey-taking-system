@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public abstract class Question implements Serializable {
+    static int maxPromptLength = 100;
     int numResponse;
     protected String question;
     protected List<String> answers;
@@ -33,13 +34,23 @@ public abstract class Question implements Serializable {
         }
     }
 
+    protected static boolean validPrompt(String prompt) {
+        return !prompt.isEmpty() && prompt.length() < maxPromptLength;
+    }
+
     public abstract boolean isValidAnswer(String answer);
 
     public abstract void display();
 
     public void modify() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter new prompt for question: ");
-        this.question = scanner.nextLine();
+        while (true) {
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Enter new prompt for question: ");
+            String input = scanner.nextLine();
+            if (validPrompt(input)) {
+                this.question = input;
+                break;
+            }
+        }
     }
 }

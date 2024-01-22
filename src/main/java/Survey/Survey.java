@@ -9,6 +9,8 @@ import Utilities.Utilities;
 
 import java.io.*;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Survey implements Serializable {
     String name;
@@ -27,6 +29,10 @@ public class Survey implements Serializable {
         while (true) {
             System.out.print("Enter survey name: ");
             String surveyName = scanner.nextLine();
+
+            if (!validFileName(surveyName)) {
+                continue;
+            }
 
             File folder = new File("surveys\\" + surveyName);
             if (!folder.exists()) {
@@ -49,6 +55,11 @@ public class Survey implements Serializable {
     public static void displaySurvey(Survey currentSurvey) {
         if (currentSurvey == null) {
             System.out.println("Must load or create a survey before displaying it");
+            return;
+        }
+
+        if (currentSurvey.questions.isEmpty()) {
+            System.out.println("Cannot display empty survey");
             return;
         }
 
@@ -120,7 +131,7 @@ public class Survey implements Serializable {
             return;
         }
 
-        if (currentSurvey.name.isEmpty()) {
+        if (currentSurvey.questions.isEmpty()) {
             System.out.println("You must save the survey before taking it");
             return;
         }
@@ -142,6 +153,11 @@ public class Survey implements Serializable {
     public static void modifySurvey(Survey currentSurvey) {
         if (currentSurvey == null) {
             System.out.println("Must load or create a survey before modifying it");
+            return;
+        }
+
+        if (currentSurvey.questions.isEmpty()) {
+            System.out.println("Cannot modify empty survey");
             return;
         }
 
@@ -195,8 +211,21 @@ public class Survey implements Serializable {
 
         while (!isSaved) {
             Scanner scanner = new Scanner(System.in);
-            System.out.println("Enter your name to save answer: ");
-            String name = scanner.nextLine();
+
+            String name;
+
+            while (true) {
+                System.out.println("Enter your name to save answer: ");
+                name = scanner.nextLine();
+                if (name.equals(survey.name)) {
+                    System.out.println("Cannot be the same as the survey name");
+                } else if (validFileName(name)) {
+                    break;
+                }
+            }
+
+            File directory = new File("surveys\\" + survey.name);
+            directory.mkdir();
 
             String path = "surveys\\" + survey.name + "\\" + name + ".txt";
             File file = new File(path);
@@ -207,6 +236,29 @@ public class Survey implements Serializable {
                 System.out.println("Name already exists");
             }
         }
+    }
+
+    private static boolean validFileName(String fileName) {
+        Pattern pattern = Pattern.compile("[\\\\/:*?\"<>|&]");
+        Matcher matcher = pattern.matcher(fileName);
+        if (fileName.trim().isEmpty()) {
+            System.out.println("Name cannot be empty");
+            return false;
+        }
+
+        if (matcher.find()) {
+            System.out.println("Contains invalid characters");
+            return false;
+        }
+
+        for (char c : fileName.toCharArray()) {
+            if (c < 32) {
+                System.out.println("Contains control characters");
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private static void serialize(String path, Survey survey) {
