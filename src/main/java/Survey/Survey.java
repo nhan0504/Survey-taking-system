@@ -9,8 +9,6 @@ import Utilities.Utilities;
 
 import java.io.*;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Survey implements Serializable {
     String name;
@@ -30,7 +28,7 @@ public class Survey implements Serializable {
             System.out.print("Enter survey name: ");
             String surveyName = scanner.nextLine();
 
-            if (!validFileName(surveyName)) {
+            if (!Utilities.validFileName(surveyName)) {
                 continue;
             }
 
@@ -219,7 +217,7 @@ public class Survey implements Serializable {
                 name = scanner.nextLine();
                 if (name.equals(survey.name)) {
                     System.out.println("Cannot be the same as the survey name");
-                } else if (validFileName(name)) {
+                } else if (Utilities.validFileName(name)) {
                     break;
                 }
             }
@@ -236,29 +234,6 @@ public class Survey implements Serializable {
                 System.out.println("Name already exists");
             }
         }
-    }
-
-    private static boolean validFileName(String fileName) {
-        Pattern pattern = Pattern.compile("[\\\\/:*?\"<>|&]");
-        Matcher matcher = pattern.matcher(fileName);
-        if (fileName.trim().isEmpty()) {
-            System.out.println("Name cannot be empty");
-            return false;
-        }
-
-        if (matcher.find()) {
-            System.out.println("Contains invalid characters");
-            return false;
-        }
-
-        for (char c : fileName.toCharArray()) {
-            if (c < 32) {
-                System.out.println("Contains control characters");
-                return false;
-            }
-        }
-
-        return true;
     }
 
     private static void serialize(String path, Survey survey) {
