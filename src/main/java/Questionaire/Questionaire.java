@@ -11,8 +11,6 @@ public abstract class Questionaire implements Serializable {
     String name;
     List<Question> questions;
 
-    public abstract void create();
-
     public void display() {
         if (this.questions.isEmpty()) {
             System.out.println("Cannot display empty");
@@ -30,13 +28,32 @@ public abstract class Questionaire implements Serializable {
         System.out.println("-~-~-~-~-~-~-~-~-~-~-~-~-~-~-End-~--~-~-~-~-~-~-~-~-~-~-~-~-~");
     }
 
-    public abstract void modify();
+    public void modify() {
+        if (this.questions.isEmpty()) {
+            System.out.println("Cannot modify empty");
+            return;
+        }
+
+        this.display();
+
+        while (true) {
+            System.out.print("Which question do you want to modify? Please enter a number starting from 1: ");
+            Scanner scanner = new Scanner(System.in);
+            String input = scanner.nextLine();
+            if (Utilities.checkNumberInRange(input, 1, this.questions.size() + 1)) {
+                this.questions.get(Integer.parseInt(input) - 1).modify();
+                break;
+            }
+        }
+
+        //Save after modify
+    }
 
     public abstract void save();
 
     public abstract void take();
 
-    public abstract void load();
+    //public abstract Questionaire load();
 
     public abstract void tabulate();
 

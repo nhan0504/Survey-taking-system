@@ -16,37 +16,7 @@ public class Survey extends Questionaire {
         this.questions = new ArrayList<>();
     }
 
-    @Override
-    public void create() {
-
-    }
-
-    @Override
-    public void modify() {
-
-    }
-
-    @Override
-    public void load() {
-
-    }
-
-    @Override
-    public void save() {
-
-    }
-
-    @Override
-    public void tabulate() {
-
-    }
-
-    @Override
-    public void take() {
-
-    }
-
-    public static Survey createSurvey() {
+    public static Survey create() {
         Survey newSurvey = new Survey();
         Menu createMenu = new CreateSurveyMenu(new CreateSurveyExecutor(newSurvey));
 
@@ -67,7 +37,7 @@ public class Survey extends Questionaire {
         return newSurvey;
     }
 
-    public static Survey loadSurvey() {
+    public static Survey load() {
         File surveysFolder = new File("surveys");
         String[] allSurveys = surveysFolder.list();
 
@@ -98,33 +68,25 @@ public class Survey extends Questionaire {
         return deserialize(path);
     }
 
-    public static void saveSurvey(Survey currentSurvey) {
-        if (currentSurvey == null) {
-            System.out.println("Must create a survey before saving it");
-            return;
-        }
-
-        if (currentSurvey.questions.isEmpty()) {
+    @Override
+    public void save() {
+        if (this.questions.isEmpty()) {
             System.out.println("Cannot save empty survey");
             return;
         }
 
-        File directory = new File("surveys\\" + currentSurvey.name);
+        File directory = new File("surveys\\" + this.name);
         directory.mkdir();
 
-        String path = "surveys\\" + currentSurvey.name + "\\" + currentSurvey.name + ".txt";
-        serialize(path, currentSurvey);
+        String path = "surveys\\" + this.name + "\\" + this.name + ".txt";
+        serialize(path, this);
 
-        currentSurvey.display();
+        this.display();
     }
 
-    public static void takeSurvey(Survey currentSurvey) {
-        if (currentSurvey == null) {
-            System.out.println("Must load or create a survey before taking it");
-            return;
-        }
-
-        if (currentSurvey.questions.isEmpty()) {
+    @Override
+    public void take() {
+        if (this.questions.isEmpty()) {
             System.out.println("You must save the survey before taking it");
             return;
         }
@@ -132,42 +94,22 @@ public class Survey extends Questionaire {
         System.out.println("-~-~-~-~-~-~-~-~-~-~-~-~-~-~Survey-~-~-~-~-~-~-~-~-~-~-~-~-~-~");
         System.out.println();
         int index = 1;
-        for(Question question : currentSurvey.questions) {
+        for(Question question : this.questions) {
             System.out.print(index++ + ". ");
             question.display();
             question.getAnswer();
             System.out.println();
         }
         System.out.println("-~-~-~-~-~-~-~-~-~-~-~-~-~End Survey-~-~-~-~-~-~-~-~-~-~-~-~-~");
-        saveSurveyAnswer(currentSurvey);
+        saveSurveyAnswer(this);
         System.out.println();
     }
 
-    public static void modifySurvey(Survey currentSurvey) {
-        if (currentSurvey == null) {
-            System.out.println("Must load or create a survey before modifying it");
-            return;
-        }
+    @Override
+    public void tabulate() {
 
-        if (currentSurvey.questions.isEmpty()) {
-            System.out.println("Cannot modify empty survey");
-            return;
-        }
-
-        currentSurvey.display();
-
-        while (true) {
-            System.out.print("Which question do you want to modify? Please enter a number starting from 1: ");
-            Scanner scanner = new Scanner(System.in);
-            String input = scanner.nextLine();
-            if (Utilities.checkNumberInRange(input, 1, currentSurvey.questions.size() + 1)) {
-                currentSurvey.questions.get(Integer.parseInt(input) - 1).modify();
-                break;
-            }
-        }
-
-        saveSurvey(currentSurvey);
     }
+
 
     public static void addTF(Survey currentSurvey) {
         Question question = QuestionFactory.createTrueFalse();

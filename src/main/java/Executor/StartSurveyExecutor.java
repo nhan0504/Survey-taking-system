@@ -8,25 +8,38 @@ public class StartSurveyExecutor implements Executor {
     public boolean execute(int option) {
         switch (option) {
             case 0:
-                currentSurvey = Survey.createSurvey();
+                currentSurvey = Survey.create();
                 return true;
             case 1:
                 if (currentSurvey == null) {
                     System.out.println("Must load or create a survey before displaying");
+                } else {
+                    currentSurvey.display();
                 }
-                currentSurvey.display();
                 return true;
             case 2:
-                currentSurvey = Survey.loadSurvey();
+                currentSurvey = Survey.load();
                 return true;
             case 3:
-                Survey.saveSurvey(currentSurvey);
+                if (currentSurvey == null) {
+                    System.out.println("Must create a survey before saving");
+                } else {
+                    currentSurvey.save();
+                }
                 return true;
             case 4:
-                Survey.takeSurvey(currentSurvey);
+                if (currentSurvey == null) {
+                    System.out.println("Must load or create a survey before taking");
+                } else {
+                    currentSurvey.take();
+                }
                 return true;
             case 5:
-                Survey.modifySurvey(currentSurvey);
+                if (currentSurvey == null) {
+                    System.out.println("Must load or create a survey before modifying");
+                } else {
+                    currentSurvey.modify();
+                }
                 return true;
         }
         return false;
