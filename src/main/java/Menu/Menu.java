@@ -5,11 +5,20 @@ import Utilities.Utilities;
 
 import java.util.*;
 
-public abstract class Menu<T> {
+public abstract class Menu {
     protected List<String> options;
-    protected Executor<T> executor;
+    protected Executor executor;
 
-    public void display() {
+    public void run() {
+        while(true) {
+            display();
+            if (!getInputAndExecute()) break;
+            System.out.println();
+            System.out.println();
+        }
+    }
+
+    private void display() {
         for (int i = 0; i < options.size(); i++) {
             int index = i + 1;
             System.out.println(index + ". " + options.get(i));
@@ -28,7 +37,7 @@ public abstract class Menu<T> {
         }
     }
 
-    public boolean getInputAndExecute() {
+    private boolean getInputAndExecute() {
         int option = getValidInput();
         return executor.execute(option - 1);
     }

@@ -1,14 +1,12 @@
 package Menu;
 
 import Executor.Executor;
-import Executor.StartSurveyExecutor;
-import Survey.Survey;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public final class StartSurveyMenu extends Menu<Survey> {
-    public StartSurveyMenu(Executor<Survey> executor) {
+public final class StartSurveyMenu extends Menu {
+    public StartSurveyMenu(Executor executor) {
         List<String> options = new ArrayList<>();
         options.add("Create a new survey");
         options.add("Display current survey");
@@ -16,7 +14,7 @@ public final class StartSurveyMenu extends Menu<Survey> {
         options.add("Save the current survey");
         options.add("Take the current survey");
         options.add("Modify current survey");
-        options.add("Quit");
+        options.add("Go back");
         this.options = options;
         this.executor = executor;
     }

@@ -1,4 +1,4 @@
-package Survey;
+package Questionaire;
 
 import Executor.CreateSurveyExecutor;
 import Menu.CreateSurveyMenu;
@@ -22,7 +22,7 @@ public class Survey implements Serializable {
     public static Survey createSurvey() {
         Scanner scanner = new Scanner(System.in);
         Survey newSurvey = new Survey();
-        Menu<Survey> createMenu = new CreateSurveyMenu(new CreateSurveyExecutor(newSurvey));
+        Menu createMenu = new CreateSurveyMenu(new CreateSurveyExecutor(newSurvey));
 
         while (true) {
             System.out.print("Enter survey name: ");
@@ -41,11 +41,7 @@ public class Survey implements Serializable {
             }
         }
 
-        boolean running = true;
-        while (running) {
-            createMenu.display();
-            running = createMenu.getInputAndExecute();
-        }
+        createMenu.run();
 
         return newSurvey;
     }

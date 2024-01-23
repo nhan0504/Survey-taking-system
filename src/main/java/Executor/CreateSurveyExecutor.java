@@ -1,8 +1,8 @@
 package Executor;
 
-import Survey.Survey;
+import Questionaire.Survey;
 
-public class CreateSurveyExecutor implements Executor<Survey> {
+public class CreateSurveyExecutor implements Executor {
     public Survey currentSurvey;
 
     public CreateSurveyExecutor(Survey currentSurvey) {

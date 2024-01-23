@@ -1,5 +1,5 @@
 package Executor;
 
-public interface Executor<T> {
+public interface Executor {
     public boolean execute(int option);
 }

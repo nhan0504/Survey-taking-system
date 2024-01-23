@@ -1,8 +1,8 @@
 package Executor;
 
-import Survey.Survey;
+import Questionaire.Survey;
 
-public class StartSurveyExecutor implements Executor<Survey> {
+public class StartSurveyExecutor implements Executor {
     public Survey currentSurvey;
     @Override
     public boolean execute(int option) {
