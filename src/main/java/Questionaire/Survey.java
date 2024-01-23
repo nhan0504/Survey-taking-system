@@ -22,7 +22,7 @@ public class Survey extends Questionaire {
         Menu createMenu = new CreateSurveyMenu(new CreateSurveyExecutor(newSurvey));
 
         while (true) {
-            String surveyName = getName("survey");
+            String surveyName = getFileName("survey");
 
             File folder = new File("surveys\\" + surveyName);
             if (!folder.exists()) {
@@ -70,27 +70,6 @@ public class Survey extends Questionaire {
     }
 
     @Override
-    public void take() {
-        if (this.questions.isEmpty()) {
-            System.out.println("You must save the survey before taking it");
-            return;
-        }
-
-        System.out.println("-~-~-~-~-~-~-~-~-~-~-~-~-~-~Survey-~-~-~-~-~-~-~-~-~-~-~-~-~-~");
-        System.out.println();
-        int index = 1;
-        for(Question question : this.questions) {
-            System.out.print(index++ + ". ");
-            question.display();
-            question.getAnswer();
-            System.out.println();
-        }
-        System.out.println("-~-~-~-~-~-~-~-~-~-~-~-~-~End Survey-~-~-~-~-~-~-~-~-~-~-~-~-~");
-        saveSurveyAnswer(this);
-        System.out.println();
-    }
-
-    @Override
     public void tabulate() {
 
     }
@@ -124,38 +103,6 @@ public class Survey extends Questionaire {
     public static void addMatching(Survey currentSurvey) {
         Question question = QuestionFactory.createMatching();
         currentSurvey.questions.add(question);
-    }
-
-    private static void saveSurveyAnswer(Survey survey) {
-        boolean isSaved = false;
-
-        while (!isSaved) {
-            Scanner scanner = new Scanner(System.in);
-
-            String name;
-
-            while (true) {
-                System.out.println("Enter your name to save answer: ");
-                name = scanner.nextLine();
-                if (name.equals(survey.name)) {
-                    System.out.println("Cannot be the same as the survey name");
-                } else if (Utilities.validFileName(name)) {
-                    break;
-                }
-            }
-
-            File directory = new File("surveys\\" + survey.name);
-            directory.mkdir();
-
-            String path = "surveys\\" + survey.name + "\\" + name + ".txt";
-            File file = new File(path);
-            if (!file.exists()) {
-                Utilities.serialize(path, survey);
-                isSaved = true;
-            } else {
-                System.out.println("Name already exists");
-            }
-        }
     }
 
 }

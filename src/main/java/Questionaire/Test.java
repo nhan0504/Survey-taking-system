@@ -22,11 +22,6 @@ public class Test extends Questionaire{
 
     }
 
-    @Override
-    public void take() {
-
-    }
-
     public void displayWithAnswer() {
     }
 

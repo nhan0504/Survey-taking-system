@@ -65,18 +65,54 @@ public abstract class Questionaire implements Serializable {
         this.display();
     }
 
-    public abstract void take();
+    public void take() {
+        File surveyDirectory = new File(saveDirectory + "\\" + this.name);
+        if (!surveyDirectory.exists()) {
+            System.out.println("You must save before taking");
+            return;
+        }
+
+        System.out.println("-~-~-~-~-~-~-~-~-~-~-~-~-~-~Start-~-~-~-~-~-~-~-~-~-~-~-~-~-~");
+        System.out.println();
+
+        int displayIndex = 1;
+        for(Question question : this.questions) {
+            System.out.print(displayIndex++ + ". ");
+            question.display();
+            question.getAnswer();
+            System.out.println();
+        }
+
+        System.out.println("-~-~-~-~-~-~-~-~-~-~-~-~-~-~-End~-~-~-~-~-~-~-~-~-~-~-~-~-~-~");
+        System.out.println();
+
+        this.saveAnswer();
+    }
+
+    private void saveAnswer() {
+        while (true) {
+            String name = getFileName("your");
+            String path = "surveys\\" + this.name + "\\" + name + ".txt";
+            File file = new File(path);
+            if (!file.exists()) {
+                Utilities.serialize(path, this);
+                break;
+            } else {
+                System.out.println("Name already exists");
+            }
+        }
+    }
 
     //public abstract Questionaire load();
 
     public abstract void tabulate();
 
 
-    protected static String getName(String questionaireType) {
+    protected static String getFileName(String nameType) {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.print("Enter " + questionaireType + " name: ");
+            System.out.print("Enter " +nameType + " name: ");
             String name = scanner.nextLine();
 
             if (Utilities.validFileName(name)) {
