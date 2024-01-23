@@ -1,5 +1,8 @@
 package Utilities;
 
+import Questionaire.Questionaire;
+
+import java.io.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,5 +43,29 @@ public class Utilities {
         }
 
         return true;
+    }
+
+    public static <T> void serialize(String path, T object) {
+        try {
+            ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(path));
+            outputStream.writeObject(object);
+            outputStream.flush();
+            outputStream.close();
+        } catch (IOException e) {
+            System.out.printf(e.getMessage());
+        }
+    }
+
+    public static <T> T deserialize(String path, Class<T> type) {
+        T object = null;
+
+        try {
+            ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(path));
+            object = type.cast(inputStream.readObject());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return object;
     }
 }

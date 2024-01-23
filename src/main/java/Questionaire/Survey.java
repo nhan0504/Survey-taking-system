@@ -59,13 +59,13 @@ public class Survey extends Questionaire {
             System.out.print("Which survey do you want to load? Enter a number: ");
             String input = scanner.nextLine();
             if (Utilities.checkNumberInRange(input, 1, allSurveys.length + 1)) {
-                int surveyIndex = Integer.parseInt(input);
+                int surveyIndex = Integer.parseInt(input) - 1;
                 path = "surveys\\" + allSurveys[surveyIndex] + "\\" + allSurveys[surveyIndex] + ".txt";
                 break;
             }
         }
 
-        return deserialize(path);
+        return Utilities.deserialize(path, Survey.class);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class Survey extends Questionaire {
         directory.mkdir();
 
         String path = "surveys\\" + this.name + "\\" + this.name + ".txt";
-        serialize(path, this);
+        Utilities.serialize(path, this);
 
         this.display();
     }
@@ -165,7 +165,7 @@ public class Survey extends Questionaire {
             String path = "surveys\\" + survey.name + "\\" + name + ".txt";
             File file = new File(path);
             if (!file.exists()) {
-                serialize(path, survey);
+                Utilities.serialize(path, survey);
                 isSaved = true;
             } else {
                 System.out.println("Name already exists");
@@ -173,27 +173,4 @@ public class Survey extends Questionaire {
         }
     }
 
-    private static void serialize(String path, Survey survey) {
-        try {
-            ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(path));
-            outputStream.writeObject(survey);
-            outputStream.flush();
-            outputStream.close();
-        } catch (IOException e) {
-            System.out.printf(e.getMessage());
-        }
-    }
-
-    private static Survey deserialize(String path) {
-        Survey survey = new Survey();
-
-        try {
-            ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(path));
-            survey = (Survey) inputStream.readObject();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
-        return survey;
-    }
 }
