@@ -1,7 +1,13 @@
 package Questionaire;
 
+import java.util.ArrayList;
+
 public class Test extends Questionaire{
-    private Test(){}
+    private Test(){
+        this.name = "";
+        this.saveDirectory = "tests";
+        this.questions = new ArrayList<>();
+    }
 
     public static Test create() {
         return new Test();
@@ -9,11 +15,6 @@ public class Test extends Questionaire{
 
     public static Test load() {
         return new Test();
-    }
-
-    @Override
-    public void save() {
-
     }
 
     @Override

@@ -13,6 +13,7 @@ import java.util.*;
 public class Survey extends Questionaire {
     private Survey() {
         this.name = "";
+        this.saveDirectory = "surveys";
         this.questions = new ArrayList<>();
     }
 
@@ -66,22 +67,6 @@ public class Survey extends Questionaire {
         }
 
         return Utilities.deserialize(path, Survey.class);
-    }
-
-    @Override
-    public void save() {
-        if (this.questions.isEmpty()) {
-            System.out.println("Cannot save empty survey");
-            return;
-        }
-
-        File directory = new File("surveys\\" + this.name);
-        directory.mkdir();
-
-        String path = "surveys\\" + this.name + "\\" + this.name + ".txt";
-        Utilities.serialize(path, this);
-
-        this.display();
     }
 
     @Override

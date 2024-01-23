@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 public abstract class Questionaire implements Serializable {
     String name;
+    String saveDirectory;
     List<Question> questions;
 
     public void display() {
@@ -49,7 +50,20 @@ public abstract class Questionaire implements Serializable {
         //Save after modify
     }
 
-    public abstract void save();
+    public void save() {
+        if (this.questions.isEmpty()) {
+            System.out.println("Cannot save empty");
+            return;
+        }
+
+        File directory = new File(saveDirectory + "\\" + this.name);
+        directory.mkdir();
+
+        String path = saveDirectory + "\\" + this.name + "\\" + this.name + ".txt";
+        Utilities.serialize(path, this);
+
+        this.display();
+    }
 
     public abstract void take();
 
