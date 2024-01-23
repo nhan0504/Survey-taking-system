@@ -11,7 +11,10 @@ public class StartSurveyExecutor implements Executor {
                 currentSurvey = Survey.createSurvey();
                 return true;
             case 1:
-                Survey.displaySurvey(currentSurvey);
+                if (currentSurvey == null) {
+                    System.out.println("Must load or create a survey before displaying");
+                }
+                currentSurvey.display();
                 return true;
             case 2:
                 currentSurvey = Survey.loadSurvey();

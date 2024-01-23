@@ -10,27 +10,48 @@ import Utilities.Utilities;
 import java.io.*;
 import java.util.*;
 
-public class Survey implements Serializable {
-    String name;
-    List<Question> questions;
-
+public class Survey extends Questionaire {
     private Survey() {
         this.name = "";
         this.questions = new ArrayList<>();
     }
 
+    @Override
+    public void create() {
+
+    }
+
+    @Override
+    public void modify() {
+
+    }
+
+    @Override
+    public void load() {
+
+    }
+
+    @Override
+    public void save() {
+
+    }
+
+    @Override
+    public void tabulate() {
+
+    }
+
+    @Override
+    public void take() {
+
+    }
+
     public static Survey createSurvey() {
-        Scanner scanner = new Scanner(System.in);
         Survey newSurvey = new Survey();
         Menu createMenu = new CreateSurveyMenu(new CreateSurveyExecutor(newSurvey));
 
         while (true) {
-            System.out.print("Enter survey name: ");
-            String surveyName = scanner.nextLine();
-
-            if (!Utilities.validFileName(surveyName)) {
-                continue;
-            }
+            String surveyName = getName("survey");
 
             File folder = new File("surveys\\" + surveyName);
             if (!folder.exists()) {
@@ -44,28 +65,6 @@ public class Survey implements Serializable {
         createMenu.run();
 
         return newSurvey;
-    }
-
-    public static void displaySurvey(Survey currentSurvey) {
-        if (currentSurvey == null) {
-            System.out.println("Must load or create a survey before displaying it");
-            return;
-        }
-
-        if (currentSurvey.questions.isEmpty()) {
-            System.out.println("Cannot display empty survey");
-            return;
-        }
-
-        System.out.println("-~-~-~-~-~-~-~-~-~-~-~-~-~-~Survey-~-~-~-~-~-~-~-~-~-~-~-~-~-~");
-        System.out.println();
-        int index = 1;
-        for (Question question : currentSurvey.questions) {
-            System.out.print(index++ + ". ");
-            question.display();
-            System.out.println();
-        }
-        System.out.println("-~-~-~-~-~-~-~-~-~-~-~-~-~End Survey-~-~-~-~-~-~-~-~-~-~-~-~-~");
     }
 
     public static Survey loadSurvey() {
@@ -116,7 +115,7 @@ public class Survey implements Serializable {
         String path = "surveys\\" + currentSurvey.name + "\\" + currentSurvey.name + ".txt";
         serialize(path, currentSurvey);
 
-        displaySurvey(currentSurvey);
+        currentSurvey.display();
     }
 
     public static void takeSurvey(Survey currentSurvey) {
@@ -155,7 +154,7 @@ public class Survey implements Serializable {
             return;
         }
 
-        displaySurvey(currentSurvey);
+        currentSurvey.display();
 
         while (true) {
             System.out.print("Which question do you want to modify? Please enter a number starting from 1: ");
