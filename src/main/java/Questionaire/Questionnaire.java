@@ -7,9 +7,8 @@ import java.io.*;
 import java.util.List;
 import java.util.Scanner;
 
-public abstract class Questionaire implements Serializable {
+public abstract class Questionnaire implements Serializable {
     String name;
-    String saveDirectory;
     List<Question> questions;
 
     public void display() {
@@ -50,7 +49,7 @@ public abstract class Questionaire implements Serializable {
         //Save after modify
     }
 
-    public void save() {
+    public void save(String saveDirectory) {
         if (this.questions.isEmpty()) {
             System.out.println("Cannot save empty");
             return;
@@ -65,7 +64,7 @@ public abstract class Questionaire implements Serializable {
         this.display();
     }
 
-    public void take() {
+    public void take(String saveDirectory) {
         File surveyDirectory = new File(saveDirectory + "\\" + this.name);
         if (!surveyDirectory.exists()) {
             System.out.println("You must save before taking");
@@ -89,6 +88,32 @@ public abstract class Questionaire implements Serializable {
         this.saveAnswer();
     }
 
+    public static <T extends Questionnaire> T load(Class<T> type, String saveDirectory) {
+        Scanner scanner = new Scanner(System.in);
+        String path;
+
+        List<String> allItems = Utilities.getFolderItemName(saveDirectory);
+        if (allItems.isEmpty()) {
+            System.out.println("Nothing to load");
+            return null;
+        }
+        Utilities.display(allItems);
+
+        while(true) {
+            System.out.print("Which do you want to load? Enter a number: ");
+            String input = scanner.nextLine();
+            if (Utilities.checkNumberInRange(input, 1, allItems.size() + 1)) {
+                int index = Integer.parseInt(input) - 1;
+                path = "surveys\\" + allItems.get(index) + "\\" + allItems.get(index) + ".txt";
+                break;
+            }
+        }
+
+        return Utilities.deserialize(path, type);
+    }
+
+    public abstract void tabulate();
+
     private void saveAnswer() {
         while (true) {
             String name = getFileName("your");
@@ -102,12 +127,6 @@ public abstract class Questionaire implements Serializable {
             }
         }
     }
-
-    //public abstract Questionaire load();
-
-    public abstract void tabulate();
-
-
     protected static String getFileName(String nameType) {
         Scanner scanner = new Scanner(System.in);
 

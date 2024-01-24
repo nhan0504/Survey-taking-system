@@ -19,10 +19,7 @@ public abstract class Menu {
     }
 
     private void display() {
-        for (int i = 0; i < options.size(); i++) {
-            int index = i + 1;
-            System.out.println(index + ". " + options.get(i));
-        }
+        Utilities.display(options);
     }
 
     private int getValidInput() {

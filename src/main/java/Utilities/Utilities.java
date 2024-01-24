@@ -1,10 +1,8 @@
 package Utilities;
 
-import Questionaire.Questionaire;
-
 import java.io.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.*;
+import java.util.regex.*;
 
 public class Utilities {
     public static boolean checkNumberInRange(String input, int low, int high) {
@@ -67,5 +65,17 @@ public class Utilities {
         }
 
         return object;
+    }
+
+    public static List<String> getFolderItemName(String path) {
+        File folder = new File(path);
+        return new ArrayList<>(Arrays.asList(folder.list())) ;
+    }
+
+    public static void display(List<String> list) {
+        for (int i = 0; i < list.size(); i++) {
+            int displayIndex = i + 1;
+            System.out.println(displayIndex + ". " + list.get(i));
+        }
     }
 }

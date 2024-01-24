@@ -10,10 +10,10 @@ import Utilities.Utilities;
 import java.io.*;
 import java.util.*;
 
-public class Survey extends Questionaire {
+public class Survey extends Questionnaire {
+    private static final String saveDirectory = "surveys";
     private Survey() {
         this.name = "";
-        this.saveDirectory = "surveys";
         this.questions = new ArrayList<>();
     }
 
@@ -38,35 +38,16 @@ public class Survey extends Questionaire {
         return newSurvey;
     }
 
+    public void save() {
+        this.save(saveDirectory);
+    }
+
+    public void take() {
+        this.take(saveDirectory);
+    }
+
     public static Survey load() {
-        File surveysFolder = new File("surveys");
-        String[] allSurveys = surveysFolder.list();
-
-        if (allSurveys.length == 0) {
-            System.out.println("No surveys to load");
-            return null;
-        }
-
-        for (int i = 1; i <= allSurveys.length; i++) {
-            System.out.print(i + ". ");
-            System.out.println(allSurveys[i - 1]);
-        }
-
-
-        Scanner scanner = new Scanner(System.in);
-        String path;
-
-        while(true) {
-            System.out.print("Which survey do you want to load? Enter a number: ");
-            String input = scanner.nextLine();
-            if (Utilities.checkNumberInRange(input, 1, allSurveys.length + 1)) {
-                int surveyIndex = Integer.parseInt(input) - 1;
-                path = "surveys\\" + allSurveys[surveyIndex] + "\\" + allSurveys[surveyIndex] + ".txt";
-                break;
-            }
-        }
-
-        return Utilities.deserialize(path, Survey.class);
+        return Questionnaire.load(Survey.class, saveDirectory);
     }
 
     @Override
