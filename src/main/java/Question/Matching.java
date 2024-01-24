@@ -81,23 +81,23 @@ public class Matching extends Question{
     }
 
     @Override
-    public void getAnswer() {
-        Scanner scanner = new Scanner(System.in);
-        String answer;
-        for (int i = 0; i < columns.get(0).size(); i++) {
-            int numberDisplay = i + 1;
-            while (true) {
-                System.out.print("Enter answer " + numberDisplay + ": ");
-                answer = scanner.nextLine();
-                if (isValidAnswer(answer)) {
-                    break;
-                } else {
-                    System.out.println("Answer is invalid");
-                }
-            }
-            this.answers.add(answer);
-        }
-    }
+//    public void getAnswer() {
+//        Scanner scanner = new Scanner(System.in);
+//        String answer;
+//        for (int i = 0; i < columns.get(0).size(); i++) {
+//            int numberDisplay = i + 1;
+//            while (true) {
+//                System.out.print("Enter answer " + numberDisplay + ": ");
+//                answer = scanner.nextLine();
+//                if (isValidAnswer(answer)) {
+//                    break;
+//                } else {
+//                    System.out.println("Answer is invalid");
+//                }
+//            }
+//            this.answers.add(answer);
+//        }
+//    }
 
     public boolean isValidAnswer(String answer) {
         int size = columns.get(0).size();

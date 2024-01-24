@@ -9,6 +9,7 @@ public class StartTestExecutor implements Executor{
         switch (option) {
             case 0:
                 //Create test
+                currentTest = Test.create();
                 return true;
             case 1:
                 if (currentTest == null) {
@@ -22,7 +23,7 @@ public class StartTestExecutor implements Executor{
                 if (currentTest == null) {
                     System.out.println("Must load or create a test before displaying");
                 } else {
-                    currentTest.displayWithAnswer();
+                    currentTest.displayWithCorrectAnswer();
                 }
                 return true;
             case 3:

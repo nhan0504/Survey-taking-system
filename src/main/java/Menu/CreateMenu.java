@@ -5,8 +5,8 @@ import Executor.Executor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CreateTestMenu extends Menu{
-    public CreateTestMenu(Executor executor) {
+public class CreateMenu extends Menu {
+    public CreateMenu(Executor executor) {
         List<String> options = new ArrayList<>();
         options.add("Add T/F question");
         options.add("Add multiple choice question");

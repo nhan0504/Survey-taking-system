@@ -1,6 +1,7 @@
 package Questionaire;
 
 import Question.Question;
+import Question.QuestionFactory;
 import Utilities.Utilities;
 
 import java.io.*;
@@ -46,7 +47,7 @@ public abstract class Questionnaire implements Serializable {
             }
         }
 
-        //Save after modify
+        System.out.println("Choose save if you want to save the recent changes");
     }
 
     public void save(String saveDirectory) {
@@ -85,7 +86,7 @@ public abstract class Questionnaire implements Serializable {
         System.out.println("-~-~-~-~-~-~-~-~-~-~-~-~-~-~-End~-~-~-~-~-~-~-~-~-~-~-~-~-~-~");
         System.out.println();
 
-        this.saveAnswer();
+        this.saveAnswer(saveDirectory);
     }
 
     public static <T extends Questionnaire> T load(Class<T> type, String saveDirectory) {
@@ -104,7 +105,7 @@ public abstract class Questionnaire implements Serializable {
             String input = scanner.nextLine();
             if (Utilities.checkNumberInRange(input, 1, allItems.size() + 1)) {
                 int index = Integer.parseInt(input) - 1;
-                path = "surveys\\" + allItems.get(index) + "\\" + allItems.get(index) + ".txt";
+                path = saveDirectory + "\\" + allItems.get(index) + "\\" + allItems.get(index) + ".txt";
                 break;
             }
         }
@@ -114,10 +115,46 @@ public abstract class Questionnaire implements Serializable {
 
     public abstract void tabulate();
 
-    private void saveAnswer() {
+    public Question addTF() {
+        Question question = QuestionFactory.createTrueFalse();
+        this.questions.add(question);
+        return question;
+    }
+
+    public Question addMultipleChoice() {
+        Question question = QuestionFactory.createMultipleChoice();
+        this.questions.add(question);
+        return question;
+    }
+
+    public Question addShortAnswer() {
+        Question question = QuestionFactory.createShortAnswer();
+        this.questions.add(question);
+        return question;
+    }
+
+    public Question addEssay() {
+        Question question = QuestionFactory.createEssay();
+        this.questions.add(question);
+        return question;
+    }
+
+    public Question addDate() {
+        Question question = QuestionFactory.createDate();
+        this.questions.add(question);
+        return question;
+    }
+
+    public Question addMatching() {
+        Question question = QuestionFactory.createMatching();
+        this.questions.add(question);
+        return question;
+    }
+
+    private void saveAnswer(String saveDirectory) {
         while (true) {
             String name = getFileName("your");
-            String path = "surveys\\" + this.name + "\\" + name + ".txt";
+            String path = saveDirectory + "\\" + this.name + "\\" + name + ".txt";
             File file = new File(path);
             if (!file.exists()) {
                 Utilities.serialize(path, this);

@@ -1,33 +1,33 @@
 package Executor;
 
 import Questionaire.Survey;
+import Questionaire.Test;
 
-public class CreateSurveyExecutor implements Executor {
-    public Survey currentSurvey;
-
-    public CreateSurveyExecutor(Survey currentSurvey) {
-        this.currentSurvey = currentSurvey;
+public class CreateTestExecutor implements Executor{
+    public Test currentTest;
+    public CreateTestExecutor(Test currentTest) {
+        this.currentTest = currentTest;
     }
     @Override
     public boolean execute(int option) {
         switch (option) {
             case 0:
-                currentSurvey.addTF();
+                currentTest.addTF();
                 return true;
             case 1:
-                currentSurvey.addMultipleChoice();
+                currentTest.addMultipleChoice();
                 return true;
             case 2:
-                currentSurvey.addShortAnswer();
+                currentTest.addShortAnswer();
                 return true;
             case 3:
-                currentSurvey.addEssay();
+                currentTest.addEssay();
                 return true;
             case 4:
-                currentSurvey.addDate();
+                currentTest.addDate();
                 return true;
             case 5:
-                currentSurvey.addMatching();
+                currentTest.addMatching();
                 return true;
         }
         return false;

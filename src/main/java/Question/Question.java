@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public abstract class Question implements Serializable {
     static int maxPromptLength = 100;
-    int numResponse;
+    public int numResponse;
     protected String question;
     protected List<String> answers;
 
