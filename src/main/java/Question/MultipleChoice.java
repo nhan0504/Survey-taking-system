@@ -57,7 +57,7 @@ public class MultipleChoice extends Question {
         TrueFalse modifyPrompt = new TrueFalse("Do you want to modify the question prompt? ");
         modifyPrompt.display();
         modifyPrompt.getAnswer();
-        if (modifyPrompt.answers.get(0).equals("yes")) {
+        if (modifyPrompt.answers.contains("yes")) {
             System.out.print("Enter new prompt for question: ");
             this.question = scanner.nextLine();
         }
@@ -65,7 +65,7 @@ public class MultipleChoice extends Question {
         TrueFalse modifyOption = new TrueFalse("Do you want to modify the option? ");
         modifyOption.display();
         modifyOption.getAnswer();
-        if (modifyOption.answers.get(0).equals("yes")) {
+        if (modifyOption.answers.contains("yes")) {
             while (true) {
                 System.out.print("Which option do you want to modify? Please enter a number ");
                 String input = scanner.nextLine();

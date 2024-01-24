@@ -105,8 +105,9 @@ public class Test extends Questionnaire {
 
     private void getCorrectAnswer(Question question) {
         Scanner scanner = new Scanner(System.in);
+        question.display();
+
         for (int i = 0; i < question.numResponse; i++) {
-            question.display();
             while (true) {
                 int displayIndex = i + 1;
                 System.out.print("Enter correct answer " + displayIndex + " for this question: ");
@@ -122,7 +123,30 @@ public class Test extends Questionnaire {
     }
 
     public void displayWithCorrectAnswer() {
+        if (this.questions.isEmpty()) {
+            System.out.println("Cannot display empty");
+            return;
+        }
 
+        System.out.println("-~-~-~-~-~-~-~-~-~-~-~-~-~-~Start-~-~-~-~-~-~-~-~-~-~-~-~-~-~");
+        System.out.println();
+        for (int i = 0; i < questions.size(); i++) {
+            int displayIndex = i + 1;
+            System.out.print(displayIndex + ". ");
+            questions.get(i).display();
+
+            System.out.print("The correct answer is: ");
+            Iterator<String> answer = correctAnswers.get(i).iterator();
+            while (answer.hasNext()) {
+                System.out.print(answer.next());
+                if (answer.hasNext()) {
+                    System.out.print(", ");
+                }
+            }
+            System.out.println();
+            System.out.println();
+        }
+        System.out.println("-~-~-~-~-~-~-~-~-~-~-~-~-~-~-End-~--~-~-~-~-~-~-~-~-~-~-~-~-~");
     }
 
     public void grade() {

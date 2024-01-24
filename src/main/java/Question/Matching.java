@@ -80,25 +80,6 @@ public class Matching extends Question{
         return value.length() < maxValueLength;
     }
 
-    @Override
-//    public void getAnswer() {
-//        Scanner scanner = new Scanner(System.in);
-//        String answer;
-//        for (int i = 0; i < columns.get(0).size(); i++) {
-//            int numberDisplay = i + 1;
-//            while (true) {
-//                System.out.print("Enter answer " + numberDisplay + ": ");
-//                answer = scanner.nextLine();
-//                if (isValidAnswer(answer)) {
-//                    break;
-//                } else {
-//                    System.out.println("Answer is invalid");
-//                }
-//            }
-//            this.answers.add(answer);
-//        }
-//    }
-
     public boolean isValidAnswer(String answer) {
         int size = columns.get(0).size();
         String regex = "^[A-" + (char)('A' + size - 1) + "]\\-[1-" + size + "]$";
@@ -114,7 +95,7 @@ public class Matching extends Question{
         TrueFalse modifyPrompt = new TrueFalse("Do you want to modify the question prompt? ");
         modifyPrompt.display();
         modifyPrompt.getAnswer();
-        if (modifyPrompt.answers.get(0).equals("yes")) {
+        if (modifyPrompt.answers.contains("yes")) {
             System.out.print("Enter new prompt for question: ");
             this.question = scanner.nextLine();
         }
@@ -125,7 +106,7 @@ public class Matching extends Question{
             modifyColumn.display();
             modifyColumn.getAnswer();
 
-            if (modifyColumn.answers.get(0).equals("yes")) {
+            if (modifyColumn.answers.contains("yes")) {
                 while (true) {
                     System.out.print("Which value do you want to modify? Enter a number starting from 1 ");
                     String input = scanner.nextLine();

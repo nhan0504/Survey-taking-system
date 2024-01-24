@@ -2,6 +2,7 @@ package Question;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 
@@ -9,11 +10,11 @@ public abstract class Question implements Serializable {
     static int maxPromptLength = 100;
     public int numResponse;
     protected String question;
-    protected List<String> answers;
+    protected HashSet<String> answers;
 
     public Question(String question) {
         this.question = question;
-        this.answers = new ArrayList<>();
+        this.answers = new HashSet<>();
     }
 
     public void getAnswer() {
