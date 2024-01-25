@@ -41,6 +41,13 @@ public class StartSurveyExecutor implements Executor {
                     currentSurvey.modify();
                 }
                 return true;
+            case 6:
+                if (currentSurvey == null) {
+                    System.out.println("Must load or create a survey before tabulating");
+                } else {
+                    currentSurvey.tabulate();
+                }
+                return true;
         }
         return false;
     }
