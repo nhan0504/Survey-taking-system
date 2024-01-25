@@ -14,6 +14,7 @@ public final class StartSurveyMenu extends Menu {
         options.add("Save the current survey");
         options.add("Take the current survey");
         options.add("Modify current survey");
+        options.add("Tabulate current survey");
         options.add("Go back");
         this.options = options;
         this.executor = executor;

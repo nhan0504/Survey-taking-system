@@ -5,13 +5,11 @@ import Menu.CreateMenu;
 import Menu.Menu;
 
 import java.io.*;
-import java.util.*;
 
 public class Survey extends Questionnaire {
     private static final String saveDirectory = "surveys";
     private Survey() {
-        this.name = "";
-        this.questions = new ArrayList<>();
+        super();
     }
 
     public static Survey create() {
@@ -45,11 +43,6 @@ public class Survey extends Questionnaire {
 
     public static Survey load() {
         return Questionnaire.load(Survey.class, saveDirectory);
-    }
-
-    @Override
-    public void tabulate() {
-
     }
 
 }

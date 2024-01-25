@@ -5,12 +5,18 @@ import Question.QuestionFactory;
 import Utilities.Utilities;
 
 import java.io.*;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public abstract class Questionnaire implements Serializable {
     String name;
     List<Question> questions;
+    List<HashMap<String, Integer>> tabulate;
+
+    protected Questionnaire() {
+        this.name = "";
+        this.questions = new ArrayList<>();
+        this.tabulate = new ArrayList<>();
+    }
 
     public void display() {
         if (this.questions.isEmpty()) {
@@ -75,11 +81,19 @@ public abstract class Questionnaire implements Serializable {
         System.out.println("-~-~-~-~-~-~-~-~-~-~-~-~-~-~Start-~-~-~-~-~-~-~-~-~-~-~-~-~-~");
         System.out.println();
 
-        int displayIndex = 1;
-        for(Question question : this.questions) {
-            System.out.print(displayIndex++ + ". ");
-            question.display();
-            question.getAnswer();
+
+        for(int i = 0; i < questions.size(); i++) {
+            int displayIndex = i + 1;
+            System.out.print(displayIndex + ". ");
+            questions.get(i).display();
+
+            List<String> answers = questions.get(i).getAnswer();
+
+            HashMap<String, Integer> questionTabulate = tabulate.get(i);
+            for (String answer : answers) {
+                questionTabulate.put(answer, questionTabulate.getOrDefault(answer, 0) + 1);
+            }
+
             System.out.println();
         }
 
@@ -87,6 +101,7 @@ public abstract class Questionnaire implements Serializable {
         System.out.println();
 
         this.saveAnswer(saveDirectory);
+        this.save(saveDirectory);
     }
 
     public static <T extends Questionnaire> T load(Class<T> type, String saveDirectory) {
@@ -113,41 +128,66 @@ public abstract class Questionnaire implements Serializable {
         return Utilities.deserialize(path, type);
     }
 
-    public abstract void tabulate();
+    public void tabulate() {
+        if (this.questions.isEmpty()) {
+            System.out.println("Cannot tabulate empty");
+            return;
+        }
+
+        System.out.println("-~-~-~-~-~-~-~-~-~-~-~-~-~-~Start-~-~-~-~-~-~-~-~-~-~-~-~-~-~");
+        System.out.println();
+        for (int i = 0; i < questions.size(); i++) {
+            int displayIndex = i + 1;
+            System.out.print(displayIndex + ". ");
+            questions.get(i).display();
+
+            System.out.println("Tabulation:");
+            HashMap<String , Integer> map = tabulate.get(i);
+            questions.get(i).tabulate(map);
+            System.out.println();
+        }
+        System.out.println("-~-~-~-~-~-~-~-~-~-~-~-~-~-~-End-~--~-~-~-~-~-~-~-~-~-~-~-~-~");
+    }
 
     public Question addTF() {
         Question question = QuestionFactory.createTrueFalse();
         this.questions.add(question);
+        this.tabulate.add(new HashMap<>());
         return question;
     }
 
     public Question addMultipleChoice() {
         Question question = QuestionFactory.createMultipleChoice();
         this.questions.add(question);
+        this.tabulate.add(new HashMap<>());
         return question;
     }
 
     public Question addShortAnswer() {
         Question question = QuestionFactory.createShortAnswer();
         this.questions.add(question);
+        this.tabulate.add(new HashMap<>());
         return question;
     }
 
     public Question addEssay() {
         Question question = QuestionFactory.createEssay();
         this.questions.add(question);
+        this.tabulate.add(new HashMap<>());
         return question;
     }
 
     public Question addDate() {
         Question question = QuestionFactory.createDate();
         this.questions.add(question);
+        this.tabulate.add(new HashMap<>());
         return question;
     }
 
     public Question addMatching() {
         Question question = QuestionFactory.createMatching();
         this.questions.add(question);
+        this.tabulate.add(new HashMap<>());
         return question;
     }
 

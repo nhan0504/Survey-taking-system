@@ -2,9 +2,7 @@ package Question;
 
 import Utilities.Utilities;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -117,6 +115,27 @@ public class Matching extends Question{
                         break;
                     }
                 }
+            }
+        }
+    }
+
+    @Override
+    public List<String> getAnswer() {
+        List<String> answers = super.getAnswer();
+        Collections.sort(answers);
+
+        List<String> result = new ArrayList<>();
+        result.add(String.join(" ", answers));
+        return result;
+    }
+
+    @Override
+    public void tabulate(HashMap<String, Integer> map) {
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            System.out.println(entry.getValue());
+            String[] tokens = entry.getKey().split(" ");
+            for (String token : tokens) {
+                System.out.println(token);
             }
         }
     }

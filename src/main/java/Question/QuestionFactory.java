@@ -32,7 +32,7 @@ public class QuestionFactory {
         question.getOptions();
 
         while (true) {
-            System.out.println("How many response can this question take? ");
+            System.out.print("How many response can this question take? ");
             String numResponse = scanner.nextLine();
             if (Utilities.checkNumberInRange(numResponse, 1, question.options.size() + 1)) {
                 question.numResponse = Integer.parseInt(numResponse);
@@ -56,7 +56,7 @@ public class QuestionFactory {
         }
 
         while (true) {
-            System.out.println("How many response can this question take? ");
+            System.out.print("How many response can this question take? ");
             String numResponse = scanner.nextLine();
             if (Utilities.checkNumberInRange(numResponse, 1, 11)) {
                 question.numResponse = Integer.parseInt(numResponse);
@@ -80,7 +80,7 @@ public class QuestionFactory {
         }
 
         while (true) {
-            System.out.println("How many response can this question take? ");
+            System.out.print("How many response can this question take? ");
             String numResponse = scanner.nextLine();
             if (Utilities.checkNumberInRange(numResponse, 1, 11)) {
                 question.numResponse = Integer.parseInt(numResponse);
@@ -104,7 +104,7 @@ public class QuestionFactory {
         }
 
         while (true) {
-            System.out.println("How many response can this question take? ");
+            System.out.print("How many response can this question take? ");
             String numResponse = scanner.nextLine();
             if (Utilities.checkNumberInRange(numResponse, 1, 11)) {
                 question.numResponse = Integer.parseInt(numResponse);

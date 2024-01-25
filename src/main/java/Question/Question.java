@@ -1,10 +1,7 @@
 package Question;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public abstract class Question implements Serializable {
     static int maxPromptLength = 100;
@@ -17,13 +14,15 @@ public abstract class Question implements Serializable {
         this.answers = new HashSet<>();
     }
 
-    public void getAnswer() {
+    public List<String> getAnswer() {
         Scanner scanner = new Scanner(System.in);
-        String answer = "";
+        List<String> answers = new ArrayList<>();
+        String answer;
 
         for (int i = 0; i < numResponse; i++) {
             while (true) {
-                System.out.print("Enter answer: ");
+                int displayIndex = i + 1;
+                System.out.print("Enter answer " + displayIndex + ": ");
                 answer = scanner.nextLine();
                 if (isValidAnswer(answer)) {
                     break;
@@ -31,8 +30,10 @@ public abstract class Question implements Serializable {
                     System.out.println("Answer is invalid");
                 }
             }
+            answers.add(answer);
             this.answers.add(answer);
         }
+        return answers;
     }
 
     protected static boolean validPrompt(String prompt) {
@@ -52,6 +53,12 @@ public abstract class Question implements Serializable {
                 this.question = input;
                 break;
             }
+        }
+    }
+
+    public void tabulate(HashMap<String, Integer> map) {
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
         }
     }
 }

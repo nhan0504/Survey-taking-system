@@ -13,8 +13,7 @@ public class Test extends Questionnaire {
     List<HashSet<String>> correctAnswers;
 
     private Test(){
-        this.name = "";
-        this.questions = new ArrayList<>();
+        super();
         this.correctAnswers = new ArrayList<>();
     }
 
@@ -96,11 +95,6 @@ public class Test extends Questionnaire {
         correctAnswers.add(new HashSet<>());
         getCorrectAnswer(question);
         return question;
-    }
-
-    @Override
-    public void tabulate() {
-
     }
 
     private void getCorrectAnswer(Question question) {
