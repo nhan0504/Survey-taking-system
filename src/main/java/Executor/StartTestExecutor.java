@@ -56,11 +56,7 @@ public class StartTestExecutor implements Executor{
                 }
                 return true;
             case 8:
-                if (currentTest == null) {
-                    System.out.println("Must load or create a test before grading");
-                } else {
-                    currentTest.grade();
-                }
+                Test.grade();
                 return true;
         }
         return false;

@@ -16,7 +16,7 @@ public class StartTestMenu extends Menu{
         options.add("Take the current test");
         options.add("Modify current test");
         options.add("Tabulate current test");
-        options.add("Grade current test");
+        options.add("Grade a test");
         options.add("Go back");
         this.options = options;
         this.executor = executor;

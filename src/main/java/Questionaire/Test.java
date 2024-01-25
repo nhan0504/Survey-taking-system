@@ -4,15 +4,53 @@ import Executor.CreateTestExecutor;
 import Menu.Menu;
 import Menu.CreateMenu;
 import Question.Question;
+import Utilities.Utilities;
 
 import java.io.File;
 import java.util.*;
 
 public class Test extends Questionnaire {
+    public static class Grade {
+        double totalPossible = 100;
+        double totalGrade;
+        double totalGradable;
+        double pointEach;
+
+        private Grade(double pointEach) {
+            this.totalGrade = totalPossible;
+            this.totalGradable = totalPossible;
+            this.pointEach = pointEach;
+        }
+
+        public void setTotalGrade(double totalGrade) {
+            this.totalGrade = totalGrade;
+        }
+
+        public void setTotalGradable(double totalGradable) {
+            this.totalGradable = totalGradable;
+        }
+
+        public double getPointEach() {
+            return pointEach;
+        }
+
+        public double getTotalGrade() {
+            return totalGrade;
+        }
+
+        public double getTotalGradable() {
+            return totalGradable;
+        }
+
+        protected double getTotalPossible() {
+            return totalPossible;
+        }
+    }
+
     private static final String saveDirectory = "tests";
     List<HashSet<String>> correctAnswers;
 
-    private Test(){
+    private Test() {
         super();
         this.correctAnswers = new ArrayList<>();
     }
@@ -143,6 +181,70 @@ public class Test extends Questionnaire {
         System.out.println("-~-~-~-~-~-~-~-~-~-~-~-~-~-~-End-~--~-~-~-~-~-~-~-~-~-~-~-~-~");
     }
 
-    public void grade() {
+    public static void grade() {
+        Test test;
+        try {
+            test = getTestToGrade();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return;
+        }
+
+        Test response;
+        try {
+            response = getTestResponseToGrade(test);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return;
+        }
+
+        double pointEach = (double) 100 / response.questions.size();
+        Grade grade = new Grade(pointEach);
+        for (int i = 0; i < response.questions.size(); i++) {
+            response.questions.get(i).getGrade(response.correctAnswers.get(i), grade);
+        }
+        int numEssay = (int) ((grade.getTotalPossible() - grade.getTotalGradable()) / grade.getPointEach());
+        System.out.println("You receive an " + grade.getTotalGrade() + " on the test. The test was worth " +
+                            grade.getTotalPossible() + " points, but only " + grade.getTotalGradable() +
+                            " of those points could be graded because there was " + numEssay + " essay question");
+    }
+
+    private static Test getTestToGrade() throws Exception {
+        Scanner scanner = new Scanner(System.in);
+
+        List<String> tests = Utilities.getFolderItemName("tests");
+        if (tests.isEmpty()) {
+            throw new Exception("No test to grade");
+        }
+        Utilities.display(tests);
+
+        while (true) {
+            System.out.print("Select an existing test to grade. Enter a number:  ");
+            String input = scanner.nextLine();
+            if (Utilities.checkNumberInRange(input, 1, tests.size() + 1)) {
+                int index = Integer.parseInt(input) - 1;
+                String path = saveDirectory + "\\" + tests.get(index) + "\\" + tests.get(index) + ".txt";
+                return Utilities.deserialize(path, Test.class);
+            }
+        }
+    }
+    private static Test getTestResponseToGrade(Test test) throws Exception {
+        Scanner scanner = new Scanner(System.in);
+        List<String> responses = Utilities.getFolderItemName("tests\\" + test.name);
+        responses.remove(test.name + "txt");
+        if (responses.isEmpty()) {
+            throw new Exception("No response to grade");
+        }
+        Utilities.display(responses);
+
+        while (true) {
+            System.out.print("Select an existing response to grade. Enter a number: ");
+            String input = scanner.nextLine();
+            if (Utilities.checkNumberInRange(input, 1, responses.size() + 1)) {
+                int index = Integer.parseInt(input) - 1;
+                String path = saveDirectory + "\\" + test.name + "\\" + responses.get(index);
+                return Utilities.deserialize(path, Test.class);
+            }
+        }
     }
 }

@@ -1,5 +1,7 @@
 package Question;
 
+import Questionaire.Test;
+
 import java.io.Serializable;
 import java.util.*;
 
@@ -7,7 +9,7 @@ public abstract class Question implements Serializable {
     static int maxPromptLength = 100;
     public int numResponse;
     protected String question;
-    protected HashSet<String> answers;
+    public HashSet<String> answers;
 
     public Question(String question) {
         this.question = question;
@@ -59,6 +61,12 @@ public abstract class Question implements Serializable {
     public void tabulate(HashMap<String, Integer> map) {
         for (Map.Entry<String, Integer> entry : map.entrySet()) {
             System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
+    }
+
+    public void getGrade(HashSet<String> set, Test.Grade grade) {
+        if (!this.answers.equals(set)) {
+            grade.setTotalGrade(grade.getTotalGrade() - grade.getPointEach());
         }
     }
 }

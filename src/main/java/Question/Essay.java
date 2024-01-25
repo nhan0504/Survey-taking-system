@@ -1,6 +1,9 @@
 package Question;
 
+import Questionaire.Test;
+
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 
@@ -25,5 +28,11 @@ public class Essay extends Question{
         for (String answer : answers) {
             System.out.println(answer);
         }
+    }
+
+    @Override
+    public void getGrade(HashSet<String> set, Test.Grade grade) {
+        grade.setTotalGrade(grade.getTotalGrade() - grade.getPointEach());
+        grade.setTotalGradable(grade.getTotalGradable()- grade.getPointEach());
     }
 }
