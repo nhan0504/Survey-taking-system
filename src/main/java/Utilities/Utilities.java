@@ -78,4 +78,16 @@ public class Utilities {
             System.out.println(displayIndex + ". " + list.get(i));
         }
     }
+
+    public static int getOption(String message, int low, int high) {
+        Scanner scanner = new Scanner(System.in);
+        String input;
+        while (true) {
+            System.out.print(message);
+            input = scanner.nextLine();
+            if (Utilities.checkNumberInRange(input, low, high)) {
+                return Integer.parseInt(input);
+            }
+        }
+    }
 }
