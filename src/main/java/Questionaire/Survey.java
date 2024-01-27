@@ -28,6 +28,7 @@ public class Survey extends Questionnaire {
             }
         }
 
+        System.out.println();
         createMenu.run();
 
         return newSurvey;

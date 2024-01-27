@@ -10,32 +10,21 @@ public abstract class Menu {
     protected Executor executor;
 
     public void run() {
-        while(true) {
-            display();
-            if (!getInputAndExecute()) break;
-            System.out.println();
-            System.out.println();
+        do {
+            this.display();
         }
+        while(getInputAndExecute());
     }
 
     private void display() {
         Utilities.display(options);
     }
 
-    private int getValidInput() {
-        Scanner scanner = new Scanner(System.in);
-        String input;
-        while (true) {
-            System.out.print("Choose an option: ");
-            input = scanner.nextLine();
-            if (Utilities.checkNumberInRange(input, 1, options.size() + 1)) {
-                return Integer.parseInt(input);
-            }
-        }
-    }
-
     private boolean getInputAndExecute() {
-        int option = getValidInput();
-        return executor.execute(option - 1);
+        int optionIndex = Utilities.getOption("Choose an option: ", 1, this.options.size() + 1) - 1;
+        System.out.println();
+        boolean status = executor.execute(optionIndex);
+        System.out.println();
+        return status;
     }
 }

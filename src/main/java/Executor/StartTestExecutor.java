@@ -46,6 +46,7 @@ public class StartTestExecutor implements Executor{
                     System.out.println("Must load or create a test before modifying");
                 } else {
                     currentTest.modify();
+                    currentTest.save();
                 }
                 return true;
             case 7:

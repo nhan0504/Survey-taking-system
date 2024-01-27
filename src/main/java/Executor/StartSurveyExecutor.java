@@ -39,6 +39,7 @@ public class StartSurveyExecutor implements Executor {
                     System.out.println("Must load or create a survey before modifying");
                 } else {
                     currentSurvey.modify();
+                    currentSurvey.save();
                 }
                 return true;
             case 6:

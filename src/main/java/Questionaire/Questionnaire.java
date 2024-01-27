@@ -3,6 +3,7 @@ package Questionaire;
 import Question.Question;
 import Question.QuestionFactory;
 import Utilities.Utilities;
+import jdk.jshell.execution.Util;
 
 import java.io.*;
 import java.util.*;
@@ -43,15 +44,9 @@ public abstract class Questionnaire implements Serializable {
 
         this.display();
 
-        while (true) {
-            System.out.print("Which question do you want to modify? Please enter a number starting from 1: ");
-            Scanner scanner = new Scanner(System.in);
-            String input = scanner.nextLine();
-            if (Utilities.checkNumberInRange(input, 1, this.questions.size() + 1)) {
-                this.questions.get(Integer.parseInt(input) - 1).modify();
-                break;
-            }
-        }
+        int questionIndex = Utilities.getOption("Which question do you want to modify? Enter a number: ",
+                                            1, this.questions.size() + 1) - 1;
+        this.questions.get(questionIndex).modify();
 
         System.out.println("Choose save if you want to save the recent changes");
     }
@@ -105,9 +100,6 @@ public abstract class Questionnaire implements Serializable {
     }
 
     public static <T extends Questionnaire> T load(Class<T> type, String saveDirectory) {
-        Scanner scanner = new Scanner(System.in);
-        String path;
-
         List<String> allItems = Utilities.getFolderItemName(saveDirectory);
         if (allItems.isEmpty()) {
             System.out.println("Nothing to load");
@@ -115,15 +107,8 @@ public abstract class Questionnaire implements Serializable {
         }
         Utilities.display(allItems);
 
-        while(true) {
-            System.out.print("Which do you want to load? Enter a number: ");
-            String input = scanner.nextLine();
-            if (Utilities.checkNumberInRange(input, 1, allItems.size() + 1)) {
-                int index = Integer.parseInt(input) - 1;
-                path = saveDirectory + "\\" + allItems.get(index) + "\\" + allItems.get(index) + ".txt";
-                break;
-            }
-        }
+        int fileIndex = Utilities.getOption("Which do you want to load? Enter a number: ", 1, allItems.size() + 1) - 1;
+        String path = saveDirectory + "\\" + allItems.get(fileIndex) + "\\" + allItems.get(fileIndex) + ".txt";
 
         return Utilities.deserialize(path, type);
     }

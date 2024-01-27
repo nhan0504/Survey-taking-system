@@ -210,41 +210,30 @@ public class Test extends Questionnaire {
     }
 
     private static Test getTestToGrade() throws Exception {
-        Scanner scanner = new Scanner(System.in);
-
         List<String> tests = Utilities.getFolderItemName("tests");
         if (tests.isEmpty()) {
             throw new Exception("No test to grade");
         }
         Utilities.display(tests);
 
-        while (true) {
-            System.out.print("Select an existing test to grade. Enter a number:  ");
-            String input = scanner.nextLine();
-            if (Utilities.checkNumberInRange(input, 1, tests.size() + 1)) {
-                int index = Integer.parseInt(input) - 1;
-                String path = saveDirectory + "\\" + tests.get(index) + "\\" + tests.get(index) + ".txt";
-                return Utilities.deserialize(path, Test.class);
-            }
-        }
+        int testIndex = Utilities.getOption("Select an existing test to grade. Enter a number:  ",
+                                        1, tests.size() + 1) - 1;
+        String path = saveDirectory + "\\" + tests.get(testIndex) + "\\" + tests.get(testIndex) + ".txt";
+
+        return Utilities.deserialize(path, Test.class);
     }
     private static Test getTestResponseToGrade(Test test) throws Exception {
-        Scanner scanner = new Scanner(System.in);
         List<String> responses = Utilities.getFolderItemName("tests\\" + test.name);
-        responses.remove(test.name + "txt");
+        responses.remove(test.name + ".txt");
         if (responses.isEmpty()) {
             throw new Exception("No response to grade");
         }
         Utilities.display(responses);
 
-        while (true) {
-            System.out.print("Select an existing response to grade. Enter a number: ");
-            String input = scanner.nextLine();
-            if (Utilities.checkNumberInRange(input, 1, responses.size() + 1)) {
-                int index = Integer.parseInt(input) - 1;
-                String path = saveDirectory + "\\" + test.name + "\\" + responses.get(index);
-                return Utilities.deserialize(path, Test.class);
-            }
-        }
+        int responseIndex = Utilities.getOption("Select an existing response to grade. Enter a number: ",
+                                            1, responses.size() + 1) - 1;
+        String path = saveDirectory + "\\" + test.name + "\\" + responses.get(responseIndex);
+
+        return Utilities.deserialize(path, Test.class);
     }
 }
