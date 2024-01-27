@@ -16,4 +16,16 @@ public class UtilitiesTest {
         assertFalse(Utilities.checkNumberInRange("character", 1, 10));
         assertFalse(Utilities.checkNumberInRange("++", 1, 10));
     }
+
+    @Test
+    public void validFileName() {
+        assertTrue(Utilities.validFileName("my_survey"));
+        assertTrue(Utilities.validFileName("my#survey"));
+
+        assertFalse(Utilities.validFileName("my\\file"));
+        assertFalse(Utilities.validFileName("file&name"));
+        assertFalse(Utilities.validFileName(""));
+        assertFalse(Utilities.validFileName("my?file"));
+        assertFalse(Utilities.validFileName("my*file"));
+    }
 }
